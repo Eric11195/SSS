@@ -134,6 +134,7 @@ public sealed class FootballSceneBootstrap : MonoBehaviour
         GameObject wall = CreateBox(name, position, size, Outline, -0.5f);
         wall.name = name;
         wall.AddComponent<BoxCollider2D>();
+        wall.tag = "Wall";
     }
 
     private static void CreatePlayer(string name, Vector3 position, Color color, PlayerTeam team)

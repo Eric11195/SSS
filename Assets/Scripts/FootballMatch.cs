@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public sealed class FootballMatch : MonoBehaviour
 {
@@ -36,7 +37,7 @@ public sealed class FootballMatch : MonoBehaviour
             : 0f;
         audioSystem?.SetCrowdParameters(0.25f + progress * 0.75f, goalProximity, progress);
 
-        if (matchOver && Input.GetKeyDown(KeyCode.R))
+        if (matchOver && Keyboard.current.rKey.wasPressedThisFrame)
             RestartMatch();
     }
 

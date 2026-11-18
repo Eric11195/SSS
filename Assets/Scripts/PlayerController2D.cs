@@ -1,4 +1,6 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.Controls;
 
 public enum PlayerTeam
 {
@@ -39,8 +41,8 @@ public sealed class PlayerController2D : MonoBehaviour
         kickTimer -= Time.deltaTime;
         if (kickTimer <= 0f)
         {
-            KeyCode kickKey = team == PlayerTeam.Left ? KeyCode.E : KeyCode.RightShift;
-            if (Input.GetKeyDown(kickKey))
+            KeyControl kickKey = team == PlayerTeam.Left ? Keyboard.current.eKey : Keyboard.current.rightShiftKey;
+            if (kickKey.wasPressedThisFrame)
                 TryKick();
         }
     }
@@ -70,13 +72,13 @@ public sealed class PlayerController2D : MonoBehaviour
         if (team == PlayerTeam.Left)
         {
             return new Vector2(
-                (Input.GetKey(KeyCode.D) ? 1f : 0f) - (Input.GetKey(KeyCode.A) ? 1f : 0f),
-                (Input.GetKey(KeyCode.W) ? 1f : 0f) - (Input.GetKey(KeyCode.S) ? 1f : 0f));
+                (Keyboard.current.dKey.isPressed ? 1f : 0f) - (Keyboard.current.aKey.isPressed ? 1f : 0f),
+                (Keyboard.current.wKey.isPressed ? 1f : 0f) - (Keyboard.current.sKey.isPressed ? 1f : 0f));
         }
 
         return new Vector2(
-            (Input.GetKey(KeyCode.RightArrow) ? 1f : 0f) - (Input.GetKey(KeyCode.LeftArrow) ? 1f : 0f),
-            (Input.GetKey(KeyCode.UpArrow) ? 1f : 0f) - (Input.GetKey(KeyCode.DownArrow) ? 1f : 0f));
+            (Keyboard.current.rightArrowKey.isPressed ? 1f : 0f) - (Keyboard.current.leftArrowKey.isPressed ? 1f : 0f),
+            (Keyboard.current.upArrowKey.isPressed ? 1f : 0f) - (Keyboard.current.downArrowKey.isPressed ? 1f : 0f));
     }
 
     private void TryKick()
