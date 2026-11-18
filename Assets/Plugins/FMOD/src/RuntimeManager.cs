@@ -660,7 +660,7 @@ retry:
                 debugStyle.fontSize = currentPlatform.OverlayFontSize;
                 if (studioSystem.isValid() && isOverlayEnabled)
                 {
-                    windowRect = GUI.Window(GetHashCode(), windowRect, DrawDebugOverlay, "FMOD Studio Debug", debugStyle);
+                    windowRect = GUI.Window((int)(GetEntityId().GetHashCode() & 0xFFFFFFFFu), windowRect, DrawDebugOverlay, "FMOD Studio Debug", debugStyle);
                 }
             }
             else

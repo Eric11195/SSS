@@ -7,6 +7,10 @@ using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+using TreeView = UnityEditor.IMGUI.Controls.TreeView<int>;
+using TreeViewItem = UnityEditor.IMGUI.Controls.TreeViewItem<int>;
+using TreeViewState = UnityEditor.IMGUI.Controls.TreeViewState<int>;
+
 namespace FMODUnity
 {
     public class SetupWizardWindow : EditorWindow
@@ -81,7 +85,7 @@ namespace FMODUnity
         private const string backButtonText = "Back";
 
         private SimpleTreeView m_SimpleTreeView;
-        private TreeViewState m_TreeViewState;
+        private TreeViewState<int> m_TreeViewState;
 
         private bool bStudioLinked;
 
@@ -757,7 +761,7 @@ Assets/Plugins/FMOD/**/Info.plist text eol=lf";
                 {
                     if (m_TreeViewState == null)
                     {
-                        m_TreeViewState = new TreeViewState();
+                        m_TreeViewState = new TreeViewState<int>();
                     }
                     m_SimpleTreeView = new SimpleTreeView(m_TreeViewState);
                 }
@@ -979,11 +983,11 @@ Assets/Plugins/FMOD/**/Info.plist text eol=lf";
         }
     }
 
-    public class SimpleTreeView : TreeView
+    public class SimpleTreeView : TreeView<int>
     {
         private const float BodyHeight = 200;
 
-        public SimpleTreeView(TreeViewState state) : base(state)
+        public SimpleTreeView(TreeViewState<int> state) : base(state)
         {
             Reload();
             Repaint();

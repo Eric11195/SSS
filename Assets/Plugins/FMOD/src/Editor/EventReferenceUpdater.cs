@@ -13,6 +13,10 @@ using UnityEngine.SceneManagement;
 using UnityEngine.InputSystem;
 #endif
 
+using TreeView = UnityEditor.IMGUI.Controls.TreeView<int>;
+using TreeViewItem = UnityEditor.IMGUI.Controls.TreeViewItem<int>;
+using TreeViewState = UnityEditor.IMGUI.Controls.TreeViewState<int>;
+
 namespace FMODUnity
 {
     public class EventReferenceUpdater : EditorWindow
@@ -51,7 +55,7 @@ namespace FMODUnity
 
         private int executableTaskCount = 0;
 
-        private TreeViewState taskViewState = new TreeViewState();
+        private TreeViewState<int> taskViewState = new TreeViewState<int>();
 
         private TaskView taskView;
 
@@ -2146,7 +2150,7 @@ namespace FMODUnity
 
             public event AssetEventHandler assetEnableStateChanged;
 
-            public TaskView(TreeViewState state, List<Task> tasks, List<Asset> assets, List<Component> components)
+            public TaskView(TreeViewState<int> state, List<Task> tasks, List<Asset> assets, List<Component> components)
                 : base(state, new MultiColumnHeader(CreateHeaderState()))
             {
                 this.tasks = tasks;

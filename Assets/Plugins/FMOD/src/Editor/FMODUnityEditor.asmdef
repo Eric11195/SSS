@@ -10,10 +10,10 @@
         "Unity.ScriptableBuildPipeline.Editor",
         "Unity.InputSystem"
     ],
-    "includePlatforms": [],
-    "excludePlatforms": [
+    "includePlatforms": [
         "Editor"
     ],
+    "excludePlatforms": [],
     "allowUnsafeCode": false,
     "overrideReferences": false,
     "precompiledReferences": [],

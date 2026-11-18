@@ -7,6 +7,10 @@ using UnityEditor.IMGUI.Controls;
 using UnityEngine;
 using System.IO;
 
+using TreeView = UnityEditor.IMGUI.Controls.TreeView<int>;
+using TreeViewItem = UnityEditor.IMGUI.Controls.TreeViewItem<int>;
+using TreeViewState = UnityEditor.IMGUI.Controls.TreeViewState<int>;
+
 namespace FMODUnity
 {
     public class EventBrowser : EditorWindow, ISerializationCallbackReceiver
@@ -99,7 +103,7 @@ namespace FMODUnity
             treeView.Reload();
         }
 
-        private class TreeView : UnityEditor.IMGUI.Controls.TreeView
+        private class TreeView : UnityEditor.IMGUI.Controls.TreeView<int>
         {
             private static readonly Texture2D folderOpenIcon = EditorUtils.LoadImage("FolderIconOpen.png");
             private static readonly Texture2D folderClosedIcon = EditorUtils.LoadImage("FolderIconClosed.png");
@@ -165,7 +169,7 @@ namespace FMODUnity
                 }
             }
 
-            private class LeafItem : TreeViewItem
+            private class LeafItem : TreeViewItem<int>
             {
                 public LeafItem(int id, int depth, ScriptableObject data)
                     : base(id, depth)
@@ -176,7 +180,7 @@ namespace FMODUnity
                 public ScriptableObject Data;
             }
 
-            private class FolderItem : TreeViewItem
+            private class FolderItem : TreeViewItem<int>
             {
                 public FolderItem(int id, int depth, string displayName)
                     : base(id, depth, displayName)
@@ -246,7 +250,7 @@ namespace FMODUnity
             public TypeFilter TypeFilter { get; set; }
             public bool DragEnabled { get; set; }
 
-            protected override IList<TreeViewItem> BuildRows(TreeViewItem root)
+            protected override IList<TreeViewItem<int>> BuildRows(TreeViewItem<int> root)
             {
                 if (hasSearch)
                 {
@@ -600,7 +604,7 @@ namespace FMODUnity
             [Serializable]
             public class State
             {
-                public TreeViewState baseState;
+                public TreeViewState<int> baseState;
                 public List<int> noSearchExpandState;
                 public ScriptableObject selectedObject;
                 public List<string> itemPaths = new List<string>();
@@ -608,11 +612,11 @@ namespace FMODUnity
                 public TypeFilter typeFilter = TypeFilter.All;
                 public bool dragEnabled = true;
 
-                public State() : this(new TreeViewState())
+                public State() : this(new TreeViewState<int>())
                 {
                 }
 
-                public State(TreeViewState baseState)
+                public State(TreeViewState<int> baseState)
                 {
                     this.baseState = baseState;
                 }
@@ -1628,7 +1632,7 @@ namespace FMODUnity
 
                 SceneView.duringSceneGui += SceneUpdate;
 
-                EditorApplication.hierarchyWindowItemOnGUI += HierarchyUpdate;
+                EditorApplication.hierarchyWindowItemByEntityIdOnGUI += HierarchyUpdate;
 
                 if (isStandaloneWindow)
                 {
@@ -1667,7 +1671,7 @@ namespace FMODUnity
         }
 
         // This is an event handler on the hierachy view to handle dragging our objects from the browser
-        private void HierarchyUpdate(int instance, Rect rect)
+        private void HierarchyUpdate(EntityId entityId, Rect rect)
         {
             if (Event.current.type == EventType.DragPerform && rect.Contains(Event.current.mousePosition))
             {
@@ -1675,7 +1679,7 @@ namespace FMODUnity
                 {
                     UnityEngine.Object data = DragAndDrop.objectReferences[0];
 
-                    GameObject target = EditorUtility.InstanceIDToObject(instance) as GameObject;
+                    GameObject target = EditorUtility.EntityIdToObject(entityId) as GameObject;
 
                     if (data is EditorEventRef)
                     {

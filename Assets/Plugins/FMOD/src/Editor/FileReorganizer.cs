@@ -6,6 +6,10 @@ using UnityEditor;
 using UnityEditor.IMGUI.Controls;
 using UnityEngine;
 
+using TreeView = UnityEditor.IMGUI.Controls.TreeView<int>;
+using TreeViewItem = UnityEditor.IMGUI.Controls.TreeViewItem<int>;
+using TreeViewState = UnityEditor.IMGUI.Controls.TreeViewState<int>;
+
 namespace FMODUnity
 {
     public class FileReorganizer : EditorWindow, ISerializationCallbackReceiver
@@ -24,7 +28,7 @@ namespace FMODUnity
         private TaskView taskView;
 
         [SerializeField]
-        private TreeViewState taskViewState = new TreeViewState();
+        private TreeViewState<int> taskViewState = new TreeViewState<int>();
 
         [SerializeField]
         private MultiColumnHeaderState taskHeaderState;
@@ -283,7 +287,7 @@ namespace FMODUnity
 
             public event TaskSelectedHandler taskSelected;
 
-            public TaskView(TreeViewState state, MultiColumnHeader header, List<Task> tasks)
+            public TaskView(TreeViewState<int> state, MultiColumnHeader header, List<Task> tasks)
                 : base(state, header)
             {
                 this.tasks = tasks;

@@ -9,6 +9,10 @@ using System;
 using System.Linq;
 using System.Text.RegularExpressions;
 
+using TreeView = UnityEditor.IMGUI.Controls.TreeView<int>;
+using TreeViewItem = UnityEditor.IMGUI.Controls.TreeViewItem<int>;
+using TreeViewState = UnityEditor.IMGUI.Controls.TreeViewState<int>;
+
 namespace FMODUnity
 {
     [CustomEditor(typeof(Settings))]
@@ -114,7 +118,7 @@ namespace FMODUnity
         private ReorderableList banksToLoadView;
 
         private PlatformsView platformsView;
-        private TreeViewState platformTreeViewState = new TreeViewState();
+        private TreeViewState<int> platformTreeViewState = new TreeViewState<int>();
 
         private string lastSourceBankPath;
 
@@ -1878,7 +1882,7 @@ namespace FMODUnity
             }
         }
 
-        private class PlatformsView : TreeView
+        private class PlatformsView : TreeView<int>
         {
             private const float RowPadding = 2;
 
@@ -1903,7 +1907,7 @@ namespace FMODUnity
             private static readonly Vector2 DragHandleSize = new Vector2(10, 7);
             private static readonly Vector2 DragHandlePadding = new Vector2(5, 6);
 
-            public PlatformsView(Settings settings, TreeViewState state) : base(state)
+            public PlatformsView(Settings settings, TreeViewState<int> state) : base(state)
             {
                 this.settings = settings;
                 rowHeight = EditorGUIUtility.singleLineHeight + RowPadding;
