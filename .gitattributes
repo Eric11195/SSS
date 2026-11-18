@@ -1,0 +1,10 @@
+Assets/Plugins/FMOD/**/*.dll filter=lfs diff=lfs merge=lfs -text
+Assets/Plugins/FMOD/**/*.lib filter=lfs diff=lfs merge=lfs -text
+Assets/Plugins/FMOD/**/*.so filter=lfs diff=lfs merge=lfs -text
+Assets/Plugins/FMOD/**/*.a filter=lfs diff=lfs merge=lfs -text
+Assets/Plugins/FMOD/**/*.bc filter=lfs diff=lfs merge=lfs -text
+Assets/Plugins/FMOD/**/*.dylib filter=lfs diff=lfs merge=lfs -text
+Assets/Plugins/FMOD/platforms/mac/**/*.bundle/** filter=lfs diff=lfs merge=lfs -text
+Assets/Plugins/FMOD/platforms/visionos/**/*.framework/** filter=lfs diff=lfs merge=lfs -text
+Assets/Plugins/FMOD/staging/mac/**/*.bundle/** filter=lfs diff=lfs merge=lfs -text
+Assets/Plugins/FMOD/**/*.framework/** filter=lfs diff=lfs merge=lfs -text
