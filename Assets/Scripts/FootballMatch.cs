@@ -109,7 +109,7 @@ public sealed class FootballMatch : MonoBehaviour
 
         if (matchOver)
         {
-            Rect endRect = new Rect((Screen.width - 300f) * 0.5f, Screen.height * 0.4f, 300f, 80f);
+            Rect endRect = new Rect((Screen.width - 300f) * 0.5f, Screen.height * 0.4f, 300f, 160f);
             GUI.Label(endRect,
                 (leftScore >= goalsToWin ? "Pastel Blue" : "Coral Red") + " wins!\nPress R to restart",
                 title);
