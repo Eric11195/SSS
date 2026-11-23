@@ -435,16 +435,16 @@ MonoBehaviour:
     HasValue: 0
   displaySortOrder: 0
   childIdentifiers:
-  - fd7c55dab0fce234b8c25f6ffca523c1
-  - de700ef3f37a49b58a57ae3addf01ad9
-  - c88d16e5272a4e241b0ef0ac2e53b73d
-  - b7716510a1f36934c87976f3a81dbf3d
-  - 2c5177b11d81d824dbb064f9ac8527da
-  - 52eb9df5db46521439908db3a29a1bbb
-  - e7a046c753c3c3d4aacc91f6597f310d
-  - 2fea114e74ecf3c4f920e1d5cc1c4c40
-  - 46fbfdf3fc43db0458918377fd40293e
   - 0f8eb3f400726694eb47beb1a9f94ce8
+  - de700ef3f37a49b58a57ae3addf01ad9
+  - 52eb9df5db46521439908db3a29a1bbb
+  - b7716510a1f36934c87976f3a81dbf3d
+  - e7a046c753c3c3d4aacc91f6597f310d
+  - 2c5177b11d81d824dbb064f9ac8527da
+  - fd7c55dab0fce234b8c25f6ffca523c1
+  - c88d16e5272a4e241b0ef0ac2e53b73d
+  - 46fbfdf3fc43db0458918377fd40293e
+  - 2fea114e74ecf3c4f920e1d5cc1c4c40
   codecChannels:
     Value: []
     HasValue: 0
@@ -609,8 +609,8 @@ MonoBehaviour:
   switchSettingsMigration: 1
   HasSourceProject: 1
   HasPlatforms: 1
-  sourceProjectPath: 
-  sourceBankPath: 
+  sourceProjectPath: FMOD/prj/prj.fspro
+  sourceBankPath: FMOD/prj/Build
   sourceBankPathUnformatted: 
   BankRefreshCooldown: 5
   ShowBankRefreshWindow: 1
@@ -645,20 +645,20 @@ MonoBehaviour:
   SharedLibraryUpdateStage: 0
   SharedLibraryTimeSinceStart: 0
   CurrentVersion: 131637
-  HideSetupWizard: 0
+  HideSetupWizard: 1
   LastEventReferenceScanVersion: 131637
   Platforms:
-  - {fileID: -37224545654918317}
-  - {fileID: -8263549481032912285}
-  - {fileID: 1519910945561236794}
-  - {fileID: -2523339637979967297}
-  - {fileID: -351344618085467144}
-  - {fileID: -5568836956229190899}
-  - {fileID: -2391704906808393294}
-  - {fileID: 8763889015107293998}
-  - {fileID: 3023358598169534735}
   - {fileID: -8449199003216720048}
+  - {fileID: -8263549481032912285}
+  - {fileID: -5568836956229190899}
+  - {fileID: -2523339637979967297}
+  - {fileID: -2391704906808393294}
   - {fileID: -1848674703562113720}
+  - {fileID: -351344618085467144}
+  - {fileID: -37224545654918317}
+  - {fileID: 1519910945561236794}
+  - {fileID: 3023358598169534735}
+  - {fileID: 8763889015107293998}
   - {fileID: 8829206254983862417}
   MigratedPlatforms: 0500000000000000060000000a0000000800000009000000120000000c000000150000000b0000000200000001000000
 --- !u!114 &1519910945561236794
