@@ -1606,7 +1606,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::StandSoundLocator
   destination0: {fileID: 2129535072}
-  destination1: {fileID: 1611508864}
+  destination1: {fileID: 821026213}
   source0: {fileID: 978811876}
   source1: {fileID: 821026213}
   vertex: {fileID: 1611508864}

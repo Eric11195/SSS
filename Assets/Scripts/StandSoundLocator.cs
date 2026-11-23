@@ -47,7 +47,7 @@ public class StandSoundLocator : MonoBehaviour
         if (t >= 0)
         {
             emisor0.position = Vector3.Lerp(destination0.position, destination1.position, (float)t);
-            emisor1.position = emisor0.position + (float)b * d.normalized;
+            emisor1.position = emisor0.position - (float)b * d.normalized;
         }
         else
         {
