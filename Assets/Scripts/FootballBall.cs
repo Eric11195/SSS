@@ -5,6 +5,8 @@ public sealed class FootballBall : MonoBehaviour
 {
     [SerializeField] private float groundDrag = 2.2f;
     [SerializeField] private float maxHeight = 3f;
+    [SerializeField] private float minBallSize = 0.62f;
+    [SerializeField] private float maxBallSize = 0.82f;
     [SerializeField] private float gravity = 8f;
     [SerializeField] private float airRestitution = 0.35f;
     [SerializeField] private float playerInteractionHeight = 0.5f;
@@ -22,7 +24,6 @@ public sealed class FootballBall : MonoBehaviour
     private float verticalVelocity;
     private bool wasGrounded = true;
     private bool isIgnoringPlayerCollisions;
-    private float baseBallScale = 0.62f;
 
     public float Height => height;
     public bool CanBeKicked => height <= playerInteractionHeight;
@@ -37,7 +38,6 @@ public sealed class FootballBall : MonoBehaviour
         body.freezeRotation = true;
 
         ballRenderer = GetComponent<SpriteRenderer>();
-        baseBallScale = transform.localScale.x;
         SpriteRenderer[] childRenderers = GetComponentsInChildren<SpriteRenderer>();
         foreach (SpriteRenderer childRenderer in childRenderers)
         {
@@ -117,7 +117,7 @@ public sealed class FootballBall : MonoBehaviour
     {
         float normalized = Mathf.Clamp01(height / maxHeight);
         if (ballRenderer != null)
-            transform.localScale = Vector3.one * baseBallScale * Mathf.Lerp(1f, 1.32f, normalized);
+            transform.localScale = Vector3.one * Mathf.Lerp(minBallSize, maxBallSize, normalized);
 
         if (ballCoreRenderer != null)
         {

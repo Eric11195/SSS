@@ -5933,10 +5933,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 257566eba976bb24d986a1f73632a2b4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FootballBall
-  groundDrag: 2.2
-  maxHeight: 3
+  groundDrag: 1.8
+  maxHeight: 10
+  minBallSize: 0.5
+  maxBallSize: 1.5
   gravity: 8
-  airRestitution: 0.72
+  airRestitution: 0.4
   playerInteractionHeight: 1
   height: 0
 --- !u!50 &1611508861
