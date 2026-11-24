@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.03.00">
+	<object class="ParameterPreset" id="{61e94ca6-3a38-44b3-b9d1-d793cc47f776}">
+		<property name="name">
+			<value>BallHeight</value>
+		</property>
+		<relationship name="folder">
+			<destination>{b66c3ef6-189e-4c27-a786-a1e6ee10794c}</destination>
+		</relationship>
+		<relationship name="parameter">
+			<destination>{b2c29ec5-7d28-4943-a0c4-4c119e514af3}</destination>
+		</relationship>
+	</object>
+	<object class="GameParameter" id="{b2c29ec5-7d28-4943-a0c4-4c119e514af3}">
+		<property name="maximum">
+			<value>10</value>
+		</property>
+		<property name="isGlobal">
+			<value>true</value>
+		</property>
+		<property name="initialValue">
+			<value>0</value>
+		</property>
+		<property name="isExposedRecursively">
+			<value>false</value>
+		</property>
+	</object>
+</objects>
