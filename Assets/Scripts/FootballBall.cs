@@ -89,9 +89,9 @@ public sealed class FootballBall : MonoBehaviour
                     verticalVelocity = 0f;
                 }
             }
-            ParameterSetter.setBallHeight(height);
         }
 
+        ParameterSetter.SetBallHeight(height);
         UpdatePlayerCollisionState();
 
         bool grounded = height <= 0.02f;

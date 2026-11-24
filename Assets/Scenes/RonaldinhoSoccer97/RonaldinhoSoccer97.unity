@@ -6110,13 +6110,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 17654f72305082540bc7641bc566d7e3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ParameterSetter
-  ballHeightEvent:
-    Guid:
-      Data1: 1753601398
-      Data2: 1258627280
-      Data3: -1432621642
-      Data4: -1722884234
-    Path: event:/BackgroundHeightEffect
 --- !u!4 &1622868236
 Transform:
   m_ObjectHideFlags: 0

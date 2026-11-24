@@ -1,28 +1,29 @@
-using FMOD;
 using FMODUnity;
 using UnityEngine;
-using static UnityEditor.Profiling.RawFrameDataView;
 
-public class ParameterSetter : MonoBehaviour
+public sealed class ParameterSetter : MonoBehaviour
 {
-    [SerializeField]
-    private EventReference ballHeightEvent;
+    private const string BallHeightParameter = "BallHeight";
+    private static float ballHeight;
+    private bool hasLoggedParameterError;
 
-    private FMOD.Studio.EventInstance instance;
-
-    [SerializeField]
-    private static float ballHeight = 0f;
-    public static void setBallHeight(float value)
+    public static void SetBallHeight(float value)
     {
         ballHeight = value;
     }
-    void Start()
+
+    private void Update()
     {
-        instance = FMODUnity.RuntimeManager.CreateInstance(ballHeightEvent);
-        instance.start();
-    }
-    void Update()
-    {
-        instance.setParameterByName("BallHeight", ballHeight);
+        FMOD.RESULT result = RuntimeManager.StudioSystem.setParameterByName(BallHeightParameter, ballHeight);
+        if (result == FMOD.RESULT.OK)
+        {
+            hasLoggedParameterError = false;
+            return;
+        }
+
+        if (!hasLoggedParameterError)
+            Debug.LogError($"Failed to set FMOD global parameter '{BallHeightParameter}': {result}", this);
+
+        hasLoggedParameterError = true;
     }
 }

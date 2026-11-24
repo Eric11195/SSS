@@ -186,7 +186,7 @@
 	<object class="SpatialiserEffect" id="{aeac3d68-f4a5-41c9-9bc5-38e11d53a473}" />
 	<object class="AutomationPoint" id="{e6ce41ef-09b3-4f06-959a-16b0bc7de8d0}">
 		<property name="position">
-			<value>0.60000000000000009</value>
+			<value>1.2000000000000002</value>
 		</property>
 		<property name="value">
 			<value>1</value>
@@ -216,7 +216,7 @@
 	</object>
 	<object class="AutomationPoint" id="{efaefaaf-6f02-46a9-9f36-131caa7c62c2}">
 		<property name="position">
-			<value>1.7000000000000002</value>
+			<value>1.4000000000000001</value>
 		</property>
 		<property name="value">
 			<value>1</value>
