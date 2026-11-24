@@ -15,10 +15,10 @@ MonoBehaviour:
   Path: FMOD/prj/Build/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 639311115998145292
+  lastModified: 639311119708011694
   FileSizes:
   - Name: Desktop
-    Value: 1132
+    Value: 1072
   Exists: 1
 --- !u!114 &-7737366521985693027
 MonoBehaviour:
@@ -44,33 +44,6 @@ MonoBehaviour:
   IsGlobal: 1
   Labels: []
   Exists: 1
---- !u!114 &-6516562328713471603
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
-  m_Name: event:/GradasSoundEffect
-  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorEventRef
-  Path: event:/GradasSoundEffect
-  Guid:
-    Data1: 404672604
-    Data2: 1297681115
-    Data3: -480351577
-    Data4: -981704455
-  Banks:
-  - {fileID: 6101093055279621118}
-  IsStream: 0
-  Is3D: 0
-  IsOneShot: 1
-  Parameters: []
-  MinDistance: 1
-  MaxDistance: 20
-  Length: 0
 --- !u!114 &-6132164740479211116
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -167,7 +140,6 @@ MonoBehaviour:
   EditorEvents:
   - {fileID: 7376344501439009333}
   - {fileID: 6873488915602313473}
-  - {fileID: -6516562328713471603}
   - {fileID: 4860355499464477829}
   - {fileID: -2252017776609993645}
   - {fileID: 3565196665193949621}
@@ -179,22 +151,20 @@ MonoBehaviour:
   StringsBanks:
   - {fileID: -8420174799098870186}
   cacheVersion: 131861
-  cacheTime: 639311115998145292
+  cacheTime: 639311119708011694
   SerializableEventsDict:
   - key: event:/StartRoundSFX
     index: 0
   - key: event:/GoalSFX
     index: 1
-  - key: event:/GradasSoundEffect
-    index: 2
   - key: event:/BackgroundHeightEffect
-    index: 3
+    index: 2
   - key: event:/Ball/BallRustling
-    index: 4
+    index: 3
   - key: event:/Ball/BallHitsNet
-    index: 5
+    index: 4
   - key: event:/Ball/BallFall
-    index: 6
+    index: 5
 --- !u!114 &3565196665193949621
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -243,7 +213,7 @@ MonoBehaviour:
   Banks:
   - {fileID: 6101093055279621118}
   IsStream: 1
-  Is3D: 0
+  Is3D: 1
   IsOneShot: 0
   Parameters:
   - {fileID: -6132164740479211116}
@@ -265,10 +235,10 @@ MonoBehaviour:
   Path: FMOD/prj/Build/Desktop/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 639311115998120107
+  lastModified: 639311119707986594
   FileSizes:
   - Name: Desktop
-    Value: 624096
+    Value: 623872
   Exists: 1
 --- !u!114 &6873488915602313473
 MonoBehaviour:

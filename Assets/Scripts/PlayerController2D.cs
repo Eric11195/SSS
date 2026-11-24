@@ -15,18 +15,29 @@ public sealed class PlayerController2D : MonoBehaviour
     [SerializeField] private float kickRadius = 0.9f;
     [SerializeField] private float kickForce = 7f;
     [SerializeField] private float kickCooldown = 0.25f;
+    [SerializeField] private float maxKickChargeTime = 3f;
+    [SerializeField] private float maxAdditionalVerticalVelocity = 3f;
     [SerializeField] private float stepInterval = 0.32f;
 
     public PlayerTeam team;
     private Rigidbody2D body;
+    private SpriteRenderer outlineRenderer;
+    private Color originalOutlineColor;
     private float kickTimer;
+    private float kickChargeTime;
     private float stepTimer;
+    private bool isChargingKick;
+    private bool kickConsumedUntilRelease;
 
     private IGameAudio audioSystem;
 
     private void Awake()
     {
         body = GetComponent<Rigidbody2D>();
+        outlineRenderer = GetComponent<SpriteRenderer>();
+        if (outlineRenderer != null)
+            originalOutlineColor = outlineRenderer.color;
+
         body.gravityScale = 0f;
         body.freezeRotation = true;
     }
@@ -39,11 +50,33 @@ public sealed class PlayerController2D : MonoBehaviour
     private void Update()
     {
         kickTimer -= Time.deltaTime;
-        if (kickTimer <= 0f)
+
+        KeyControl kickKey = team == PlayerTeam.Left ? Keyboard.current.eKey : Keyboard.current.rightShiftKey;
+        if (!isChargingKick && !kickConsumedUntilRelease && kickTimer <= 0f && kickKey.wasPressedThisFrame)
         {
-            KeyControl kickKey = team == PlayerTeam.Left ? Keyboard.current.eKey : Keyboard.current.rightShiftKey;
-            if (kickKey.wasPressedThisFrame)
-                TryKick();
+            isChargingKick = true;
+            kickChargeTime = 0f;
+        }
+
+        if (kickKey.wasReleasedThisFrame)
+        {
+            if (isChargingKick)
+                FinishChargedKick();
+
+            kickConsumedUntilRelease = false;
+            return;
+        }
+
+        if (kickConsumedUntilRelease || !isChargingKick || !kickKey.isPressed)
+            return;
+
+        kickChargeTime = Mathf.Min(kickChargeTime + Time.deltaTime, maxKickChargeTime);
+        UpdateOutlineChargeColor();
+
+        if (kickChargeTime >= maxKickChargeTime)
+        {
+            FinishChargedKick();
+            kickConsumedUntilRelease = true;
         }
     }
 
@@ -81,7 +114,31 @@ public sealed class PlayerController2D : MonoBehaviour
             (Keyboard.current.upArrowKey.isPressed ? 1f : 0f) - (Keyboard.current.downArrowKey.isPressed ? 1f : 0f));
     }
 
-    private void TryKick()
+    private void FinishChargedKick()
+    {
+        float chargeRatio = maxKickChargeTime > 0f ? kickChargeTime / maxKickChargeTime : 1f;
+        TryKick(chargeRatio * maxAdditionalVerticalVelocity);
+        isChargingKick = false;
+        kickChargeTime = 0f;
+        ResetOutlineColor();
+    }
+
+    private void UpdateOutlineChargeColor()
+    {
+        if (outlineRenderer == null)
+            return;
+
+        float chargeRatio = maxKickChargeTime > 0f ? kickChargeTime / maxKickChargeTime : 1f;
+        outlineRenderer.color = Color.Lerp(Color.green, Color.red, chargeRatio);
+    }
+
+    private void ResetOutlineColor()
+    {
+        if (outlineRenderer != null)
+            outlineRenderer.color = originalOutlineColor;
+    }
+
+    private void TryKick(float additionalVerticalVelocity)
     {
         Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, kickRadius);
         for (int i = 0; i < hits.Length; i++)
@@ -94,7 +151,7 @@ public sealed class PlayerController2D : MonoBehaviour
             if (direction.sqrMagnitude < 0.01f)
                 direction = team == PlayerTeam.Left ? Vector2.right : Vector2.left;
 
-            ball.Kick(direction.normalized, kickForce, (int)team);
+            ball.Kick(direction.normalized, kickForce, (int)team, additionalVerticalVelocity);
             kickTimer = kickCooldown;
             break;
         }

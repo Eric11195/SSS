@@ -5,7 +5,7 @@
 			<value>BackgroundHeightEffect</value>
 		</property>
 		<property name="outputFormat">
-			<value>1</value>
+			<value>2</value>
 		</property>
 		<relationship name="folder">
 			<destination>{df1b0c7f-4324-43b7-a4be-c77a0b3eca63}</destination>
@@ -155,6 +155,7 @@
 	<object class="MixerBusEffectChain" id="{1450f41b-c19c-4924-9f6b-9872f1a23f7a}">
 		<relationship name="effects">
 			<destination>{ac5cf75d-638f-4387-93a2-c5277cbe71db}</destination>
+			<destination>{aeac3d68-f4a5-41c9-9bc5-38e11d53a473}</destination>
 		</relationship>
 	</object>
 	<object class="MixerBusPanner" id="{6b6b5326-4792-40c1-b554-7793755c13a4}" />
@@ -182,6 +183,7 @@
 	</object>
 	<object class="MixerBusPanner" id="{1c98c0b8-e3ed-4d5b-9ccf-133f312c3ff3}" />
 	<object class="MixerBusFader" id="{ac5cf75d-638f-4387-93a2-c5277cbe71db}" />
+	<object class="SpatialiserEffect" id="{aeac3d68-f4a5-41c9-9bc5-38e11d53a473}" />
 	<object class="AutomationPoint" id="{e6ce41ef-09b3-4f06-959a-16b0bc7de8d0}">
 		<property name="position">
 			<value>0.60000000000000009</value>

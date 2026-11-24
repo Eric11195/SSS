@@ -9,8 +9,12 @@ public class ParameterSetter : MonoBehaviour
     private EventReference ballHeightEvent;
 
     private FMOD.Studio.EventInstance instance;
-
+    [SerializeField]
     private static float ballHeight = 0f;
+    public static void setBallHeight(float value)
+    {
+        ballHeight = value;
+    }
     void Start()
     {
         instance = FMODUnity.RuntimeManager.CreateInstance(ballHeightEvent);

@@ -12,6 +12,7 @@ public sealed class FootballBall : MonoBehaviour
     private SpriteRenderer ballRenderer;
     private SpriteRenderer shadowRenderer;
     private IGameAudio audioSystem;
+    [SerializeField]
     private float height;
     private float verticalVelocity;
     private bool wasGrounded = true;
@@ -62,6 +63,7 @@ public sealed class FootballBall : MonoBehaviour
                     verticalVelocity = 0f;
                 }
             }
+            ParameterSetter.setBallHeight(height);
         }
 
         bool grounded = height <= 0.02f;
@@ -97,10 +99,10 @@ public sealed class FootballBall : MonoBehaviour
         }
     }
 
-    public void Kick(Vector2 direction, float force, int team)
+    public void Kick(Vector2 direction, float force, int team, float additionalVerticalVelocity = 0f)
     {
         body.linearVelocity = direction * force;
-        verticalVelocity = Mathf.Lerp(2.4f, 6f, Mathf.Clamp01(force / 10f));
+        verticalVelocity = Mathf.Lerp(2.4f, 6f, Mathf.Clamp01(force / 10f)) + additionalVerticalVelocity;
         height = Mathf.Max(height, 0.05f);
         wasGrounded = false;
         audioSystem?.PlayBallKick(team, force);
