@@ -1722,8 +1722,8 @@ MonoBehaviour:
   kickForce: 7
   kickCooldown: 0.25
   maxKickChargeTime: 3
-  minAdditionalVerticalVelocity: 0
-  maxAdditionalVerticalVelocity: 10
+  minKickHeight: 0
+  maxKickHeight: 10
   stepInterval: 0.32
   team: 1
 --- !u!50 &680754437
@@ -3642,8 +3642,8 @@ MonoBehaviour:
   kickForce: 7
   kickCooldown: 0.25
   maxKickChargeTime: 3
-  minAdditionalVerticalVelocity: 0
-  maxAdditionalVerticalVelocity: 10
+  minKickHeight: 0
+  maxKickHeight: 10
   stepInterval: 0.32
   team: 0
 --- !u!50 &1102626531

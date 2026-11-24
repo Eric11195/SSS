@@ -69,8 +69,9 @@ public sealed class FootballBall : MonoBehaviour
     {
         if (height > 0f || verticalVelocity > 0f)
         {
+            float previousVerticalVelocity = verticalVelocity;
             verticalVelocity -= gravity * Time.fixedDeltaTime;
-            height += verticalVelocity * Time.fixedDeltaTime;
+            height += (previousVerticalVelocity + verticalVelocity) * 0.5f * Time.fixedDeltaTime;
 
             if (height <= 0f)
             {
@@ -136,15 +137,15 @@ public sealed class FootballBall : MonoBehaviour
         }
     }
 
-    public void Kick(Vector2 direction, float force, int team, float additionalVerticalVelocity = 0f)
+    public void Kick(Vector2 direction, float force, int team, float targetHeight)
     {
         if (!CanBeKicked)
             return;
 
         body.linearVelocity = direction * force;
-        verticalVelocity = additionalVerticalVelocity;
-        //height = Mathf.Max(height, 0.05f);
-        wasGrounded = false;
+        height = 0f;
+        verticalVelocity = Mathf.Sqrt(2f * gravity * Mathf.Max(0f, targetHeight));
+        wasGrounded = verticalVelocity <= 0f;
         audioSystem?.PlayBallKick(team, force);
     }
 

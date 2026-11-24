@@ -16,8 +16,8 @@ public sealed class PlayerController2D : MonoBehaviour
     [SerializeField] private float kickForce = 7f;
     [SerializeField] private float kickCooldown = 0.25f;
     [SerializeField] private float maxKickChargeTime = 3f;
-    [SerializeField] private float minAdditionalVerticalVelocity = 0f;
-    [SerializeField] private float maxAdditionalVerticalVelocity = 3f;
+    [SerializeField] private float minKickHeight = 0f;
+    [SerializeField] private float maxKickHeight = 3f;
     [SerializeField] private float stepInterval = 0.32f;
 
     public PlayerTeam team;
@@ -120,11 +120,11 @@ public sealed class PlayerController2D : MonoBehaviour
         float chargeRatio = maxKickChargeTime > 0f
             ? Mathf.Clamp01(kickChargeTime / maxKickChargeTime)
             : 1f;
-        float additionalVerticalVelocity = Mathf.Lerp(
-            minAdditionalVerticalVelocity,
-            maxAdditionalVerticalVelocity,
+        float targetHeight = Mathf.Lerp(
+            minKickHeight,
+            maxKickHeight,
             chargeRatio);
-        TryKick(additionalVerticalVelocity);
+        TryKick(targetHeight);
         isChargingKick = false;
         kickChargeTime = 0f;
         ResetOutlineColor();
@@ -145,7 +145,7 @@ public sealed class PlayerController2D : MonoBehaviour
             outlineRenderer.color = originalOutlineColor;
     }
 
-    private void TryKick(float additionalVerticalVelocity)
+    private void TryKick(float targetHeight)
     {
         Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, kickRadius);
         for (int i = 0; i < hits.Length; i++)
@@ -158,7 +158,7 @@ public sealed class PlayerController2D : MonoBehaviour
             if (direction.sqrMagnitude < 0.01f)
                 direction = team == PlayerTeam.Left ? Vector2.right : Vector2.left;
 
-            ball.Kick(direction.normalized, kickForce, (int)team, additionalVerticalVelocity);
+            ball.Kick(direction.normalized, kickForce, (int)team, targetHeight);
             kickTimer = kickCooldown;
             break;
         }
