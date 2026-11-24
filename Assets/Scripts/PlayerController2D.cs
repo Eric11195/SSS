@@ -16,6 +16,7 @@ public sealed class PlayerController2D : MonoBehaviour
     [SerializeField] private float kickForce = 7f;
     [SerializeField] private float kickCooldown = 0.25f;
     [SerializeField] private float maxKickChargeTime = 3f;
+    [SerializeField] private float minAdditionalVerticalVelocity = 0f;
     [SerializeField] private float maxAdditionalVerticalVelocity = 3f;
     [SerializeField] private float stepInterval = 0.32f;
 
@@ -116,8 +117,14 @@ public sealed class PlayerController2D : MonoBehaviour
 
     private void FinishChargedKick()
     {
-        float chargeRatio = maxKickChargeTime > 0f ? kickChargeTime / maxKickChargeTime : 1f;
-        TryKick(chargeRatio * maxAdditionalVerticalVelocity);
+        float chargeRatio = maxKickChargeTime > 0f
+            ? Mathf.Clamp01(kickChargeTime / maxKickChargeTime)
+            : 1f;
+        float additionalVerticalVelocity = Mathf.Lerp(
+            minAdditionalVerticalVelocity,
+            maxAdditionalVerticalVelocity,
+            chargeRatio);
+        TryKick(additionalVerticalVelocity);
         isChargingKick = false;
         kickChargeTime = 0f;
         ResetOutlineColor();
@@ -144,7 +151,7 @@ public sealed class PlayerController2D : MonoBehaviour
         for (int i = 0; i < hits.Length; i++)
         {
             FootballBall ball = hits[i].GetComponent<FootballBall>();
-            if (ball == null)
+            if (ball == null || !ball.CanBeKicked)
                 continue;
 
             Vector2 direction = (ball.transform.position - transform.position);
