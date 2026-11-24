@@ -83,7 +83,7 @@ public sealed class PlayerController2D : MonoBehaviour
 
     private void FixedUpdate()
     {
-        Vector2 input = GetInput();
+        Vector2 input = GetInput().normalized;
         body.linearVelocity = input * moveSpeed;
 
         if (input.sqrMagnitude > 0.01f)
