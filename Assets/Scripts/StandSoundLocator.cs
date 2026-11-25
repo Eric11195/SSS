@@ -3,8 +3,10 @@ using UnityEngine;
 
 public class StandSoundLocator : MonoBehaviour
 {
-    [SerializeField] Transform destination0 = null;
-    [SerializeField] Transform destination1 = null;
+    [SerializeField] Transform destination0Emisor0 = null;
+    [SerializeField] Transform destination0Emisor1 = null;
+    [SerializeField] Transform destination1Emisor0 = null;
+    [SerializeField] Transform destination1Emisor1 = null;
 
     [SerializeField] Transform source0 = null;
     [SerializeField] Transform source1 = null;
@@ -35,23 +37,41 @@ public class StandSoundLocator : MonoBehaviour
         area = Area(vertex.position, emisor0.position, emisor1.position);
     }
 
+    static Vector3 PositionPreserveArea(Vector3 destination0, Vector3 destination1, double t, double area, Vector3 vertex, out double b, out Vector3 d)
+    {
+        d = destination1 - destination0;
+        double distance = (
+            (vertex - destination0)
+            - (d *  (float)Project01(destination0, destination1, vertex))
+        ).magnitude;
+        // a = b * h / 2
+        // 2 * a / h = b
+        b = 2.0 * area / distance;
+
+        return Vector3.Lerp(destination0, destination1, (float)t);
+    }
+
     void Update()
     {
         double t = Project01(source0.position, source1.position, vertex.position);
         
-        Vector3 d = destination1.position - destination0.position;
-        double distance = (vertex.position - (d *  (float)Project01(destination0.position, destination1.position, vertex.position))).magnitude;
-        // a = b * h / 2
-        // 2 * a / h = b
-        double b = 2.0 * area / distance;
+        Vector3 d;
+        double b;
         if (t >= 0)
         {
-            emisor0.position = Vector3.Lerp(destination0.position, destination1.position, (float)t);
+            Vector3 position0 = PositionPreserveArea(
+                destination0Emisor0.position, destination1Emisor0.position, t, area, vertex.position, out b, out d
+            );
+
+            emisor0.position = position0;
             emisor1.position = emisor0.position - (float)b * d.normalized;
         }
         else
         {
-            emisor1.position = Vector3.LerpUnclamped(destination0.position, destination1.position, (float)t);
+            Vector3 position1 = PositionPreserveArea(
+                destination0Emisor1.position, destination1Emisor1.position, -t, area, vertex.position, out b, out d
+            );
+            emisor1.position = position1;
             emisor0.position = emisor1.position - (float)b * d.normalized;
         }
     }
