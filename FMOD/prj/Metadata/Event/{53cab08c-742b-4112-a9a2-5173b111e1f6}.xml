@@ -60,7 +60,7 @@
 	<object class="MarkerTrack" id="{66af661f-96f0-474f-add0-c62ba3afa54c}" />
 	<object class="GroupTrack" id="{94a08027-c68e-4d43-8e57-856704b3ba1a}">
 		<relationship name="modules">
-			<destination>{e060936e-2653-40ec-87f3-3a31ee77d1ad}</destination>
+			<destination>{872589bc-0620-4307-90f0-03672737be3d}</destination>
 		</relationship>
 		<relationship name="mixerGroup">
 			<destination>{1808fe8d-bc31-4bd5-b0f5-bed9860b29d8}</destination>
@@ -68,7 +68,7 @@
 	</object>
 	<object class="Timeline" id="{850124c6-ef97-417b-ba0d-6b5885f6cbb4}">
 		<relationship name="modules">
-			<destination>{e060936e-2653-40ec-87f3-3a31ee77d1ad}</destination>
+			<destination>{872589bc-0620-4307-90f0-03672737be3d}</destination>
 		</relationship>
 	</object>
 	<object class="EventMixerMaster" id="{cf7736aa-1fe3-4237-9649-0349eee02412}">
@@ -88,12 +88,21 @@
 		</relationship>
 	</object>
 	<object class="MixerBusPanner" id="{d2558de1-eaf7-4057-bc65-343b0e79e373}" />
-	<object class="SingleSound" id="{e060936e-2653-40ec-87f3-3a31ee77d1ad}">
-		<property name="length">
-			<value>1.5840000000000001</value>
+	<object class="SingleSound" id="{872589bc-0620-4307-90f0-03672737be3d}">
+		<property name="isAsync">
+			<value>true</value>
 		</property>
+		<property name="length">
+			<value>56.828083333333332</value>
+		</property>
+		<property name="looping">
+			<value>true</value>
+		</property>
+		<relationship name="modulators">
+			<destination>{46d3a679-6251-4527-ba35-c34b9994cb57}</destination>
+		</relationship>
 		<relationship name="audioFile">
-			<destination>{88425cd0-19ed-4581-9433-5177b2dfbf17}</destination>
+			<destination>{459fbc66-5de9-4393-aadc-8571f725f121}</destination>
 		</relationship>
 	</object>
 	<object class="EventMixerGroup" id="{1808fe8d-bc31-4bd5-b0f5-bed9860b29d8}">
@@ -118,6 +127,14 @@
 	</object>
 	<object class="MixerBusPanner" id="{34963064-ffbb-4390-ba4e-7b632c9a0084}" />
 	<object class="MixerBusFader" id="{2e1a7a66-e858-4eec-8f32-5c2aec09bbfc}" />
+	<object class="RandomizerModulator" id="{46d3a679-6251-4527-ba35-c34b9994cb57}">
+		<property name="nameOfPropertyBeingModulated">
+			<value>startOffset</value>
+		</property>
+		<property name="amount">
+			<value>100</value>
+		</property>
+	</object>
 	<object class="MixerBusEffectChain" id="{c9f7d83c-31a4-4457-ac25-f23c660e9926}">
 		<relationship name="effects">
 			<destination>{4efd91a2-d577-47bc-b05f-f5dbc4470568}</destination>
