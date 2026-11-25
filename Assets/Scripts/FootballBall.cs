@@ -19,6 +19,7 @@ public sealed class FootballBall : MonoBehaviour
     [SerializeField, Min(0.01f)] private float fullBounceVolumeImpactSpeed = 10f;
     [SerializeField, Min(0.01f)] private float fullRustlingVolumeSpeed = 7f;
     [SerializeField] private float playerInteractionHeight = 0.5f;
+    [SerializeField] private Transform listener;
 
     private Rigidbody2D body;
     private Collider2D ballCollider;
@@ -77,6 +78,11 @@ public sealed class FootballBall : MonoBehaviour
         UpdatePlayerCollisionState();
     }
 
+    private float toMeters(float virtualHeight)
+    {
+        return virtualHeight * 8.0f;
+    }
+
     private void FixedUpdate()
     {
         if (height > 0f || verticalVelocity > 0f)
@@ -103,7 +109,7 @@ public sealed class FootballBall : MonoBehaviour
                 }
             }
         }
-
+        listener.position = new Vector3(listener.position.x, listener.position.y, toMeters(height));
         ParameterSetter.SetBallHeight(height);
         UpdatePlayerCollisionState();
 
