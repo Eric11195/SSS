@@ -127,7 +127,7 @@
 			<value>volume</value>
 		</property>
 		<property name="speedAscending">
-			<value>25</value>
+			<value>0.75</value>
 		</property>
 	</object>
 	<object class="MixerBusEffectChain" id="{15602faf-52e9-4723-95df-6f586d0ccb83}">
