@@ -190,7 +190,10 @@ public sealed class FootballBall : MonoBehaviour
         if (collision.relativeVelocity.magnitude < 0.35f)
             return;
 
-        audioSystem?.PlayBallImpact(collision.gameObject.CompareTag("Wall") ? "wall" : "player", collision.relativeVelocity.magnitude);
+        bool hitWall = collision.gameObject.CompareTag("Wall");
+        audioSystem?.PlayBallImpact(hitWall ? "wall" : "player", collision.relativeVelocity.magnitude);
+        if (hitWall)
+            PlayBallBounce(collision.relativeVelocity.magnitude);
     }
 
     private void UpdatePlayerCollisionState()
