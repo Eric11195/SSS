@@ -26,6 +26,7 @@ public sealed class FootballSceneBootstrap : MonoBehaviour
         CreatePlayer("Blue Player", new Vector3(-4.5f, 0f, -1f), LeftTeam, PlayerTeam.Left);
         CreatePlayer("Coral Player", new Vector3(4.5f, 0f, -1f), RightTeam, PlayerTeam.Right);
         CreateBall();
+        CreateReferee();
     }
 
     private static void CreateCamera()
@@ -183,6 +184,17 @@ public sealed class FootballSceneBootstrap : MonoBehaviour
         body.freezeRotation = true;
         body.linearDamping = 2.2f;
         ball.AddComponent<FootballBall>();
+    }
+
+    private static void CreateReferee()
+    {
+        GameObject referee = new GameObject("Referee");
+        referee.AddComponent<CircleCollider2D>();
+        Rigidbody2D body = referee.AddComponent<Rigidbody2D>();
+        body.gravityScale = 0f;
+        body.freezeRotation = true;
+        body.linearDamping = 8f;
+        referee.AddComponent<RefereeController2D>();
     }
 
     private static void CreateCircleOutline(string name, Vector3 position, float radius, Color outline, Color fill, float z)

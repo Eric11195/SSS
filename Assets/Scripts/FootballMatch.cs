@@ -12,6 +12,7 @@ public sealed class FootballMatch : MonoBehaviour
     private int leftScore;
     private int rightScore;
     private FootballBall ball;
+    private RefereeController2D referee;
     private float resetTimer = -1f;
     private bool matchOver;
     private IGameAudio audioSystem;
@@ -19,6 +20,9 @@ public sealed class FootballMatch : MonoBehaviour
     private void Start()
     {
         ball = FindAnyObjectByType<FootballBall>();
+        referee = refereeGO != null
+            ? refereeGO.GetComponent<RefereeController2D>()
+            : FindAnyObjectByType<RefereeController2D>();
         audioSystem = FindAnyObjectByType<GameAudioMock>();
         ResetPositions();
     }
@@ -69,6 +73,14 @@ public sealed class FootballMatch : MonoBehaviour
     private void ResetPositions()
     {
         ball?.ResetBall(Vector3.zero);
+        if (referee == null)
+            referee = refereeGO != null
+                ? refereeGO.GetComponent<RefereeController2D>()
+                : FindAnyObjectByType<RefereeController2D>();
+
+        if (referee != null)
+            referee.ResetPosition(ball != null ? ball.transform.position : Vector3.zero);
+
         foreach (PlayerController2D player in FindObjectsByType<PlayerController2D>())
         {
             player.transform.position = player.team == PlayerTeam.Left
@@ -86,7 +98,9 @@ public sealed class FootballMatch : MonoBehaviour
             return;
         }
 
-        RuntimeManager.AttachInstanceToGameObject(newEvent, refereeGO);
+        GameObject whistleObject = refereeGO != null ? refereeGO : referee != null ? referee.gameObject : null;
+        if (whistleObject != null)
+            RuntimeManager.AttachInstanceToGameObject(newEvent, whistleObject);
         FMOD.RESULT result = newEvent.start();
         if (result != FMOD.RESULT.OK)
         {
