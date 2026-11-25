@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.03.00">
+	<object class="AudioFile" id="{4e1e2e20-5157-4a49-94a1-bbaba02386f4}">
+		<property name="assetPath">
+			<value>processed/ambience/01-ovation.wav</value>
+		</property>
+		<property name="frequencyInKHz">
+			<value>48</value>
+		</property>
+		<property name="channelCount">
+			<value>2</value>
+		</property>
+		<property name="length">
+			<value>3.9500000000000002</value>
+		</property>
+		<relationship name="masterAssetFolder">
+			<destination>{c5548e92-7229-4ac6-b9c1-5871d0696ba3}</destination>
+		</relationship>
+	</object>
+</objects>
