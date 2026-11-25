@@ -15,7 +15,7 @@ MonoBehaviour:
   Path: FMOD/prj/Build/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 639311156856812592
+  lastModified: 639311985273032726
   FileSizes:
   - Name: Desktop
     Value: 1072
@@ -121,7 +121,7 @@ MonoBehaviour:
   Parameters: []
   MinDistance: 1
   MaxDistance: 20
-  Length: 1248
+  Length: 24
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -151,7 +151,7 @@ MonoBehaviour:
   StringsBanks:
   - {fileID: -8420174799098870186}
   cacheVersion: 131861
-  cacheTime: 639311156856812592
+  cacheTime: 639311985273032726
   SerializableEventsDict:
   - key: event:/StartRoundSFX
     index: 0
@@ -212,9 +212,9 @@ MonoBehaviour:
     Data4: -1722884234
   Banks:
   - {fileID: 6101093055279621118}
-  IsStream: 1
+  IsStream: 0
   Is3D: 1
-  IsOneShot: 0
+  IsOneShot: 1
   Parameters:
   - {fileID: -6132164740479211116}
   MinDistance: 1
@@ -235,10 +235,10 @@ MonoBehaviour:
   Path: FMOD/prj/Build/Desktop/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 639311156856777398
+  lastModified: 639311985272992415
   FileSizes:
   - Name: Desktop
-    Value: 623872
+    Value: 208384
   Exists: 1
 --- !u!114 &6873488915602313473
 MonoBehaviour:

@@ -1,14 +1,18 @@
+using FMODUnity;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D), typeof(CircleCollider2D))]
 public sealed class FootballBall : MonoBehaviour
 {
+    private const string BallBounceEventPath = "event:/Ball/BallFall";
+
     [SerializeField] private float groundDrag = 2.2f;
     [SerializeField] private float maxHeight = 3f;
     [SerializeField] private float minBallSize = 0.62f;
     [SerializeField] private float maxBallSize = 0.82f;
     [SerializeField] private float gravity = 8f;
     [SerializeField] private float airRestitution = 0.35f;
+    [SerializeField, Min(0.01f)] private float fullBounceVolumeImpactSpeed = 10f;
     [SerializeField] private float playerInteractionHeight = 0.5f;
 
     private Rigidbody2D body;
@@ -80,6 +84,7 @@ public sealed class FootballBall : MonoBehaviour
                 {
                     float impactSpeed = Mathf.Abs(verticalVelocity);
                     audioSystem?.PlayBallImpact("ground", impactSpeed);
+                    PlayBallBounce(impactSpeed);
                     verticalVelocity = -verticalVelocity * airRestitution;
                     if (verticalVelocity < 1f)
                         verticalVelocity = 0f;
@@ -105,6 +110,28 @@ public sealed class FootballBall : MonoBehaviour
             audioSystem?.PlayBallRoll(body.linearVelocity.sqrMagnitude > 0.08f, body.linearVelocity.magnitude);
 
         UpdateVisualHeight();
+    }
+
+    private void PlayBallBounce(float impactSpeed)
+    {
+        FMOD.Studio.EventInstance bounceEvent = RuntimeManager.CreateInstance(BallBounceEventPath);
+        float volume = Mathf.Clamp01(impactSpeed / Mathf.Max(0.01f, fullBounceVolumeImpactSpeed));
+        FMOD.RESULT result = bounceEvent.setVolume(volume);
+        if (result != FMOD.RESULT.OK)
+        {
+            Debug.LogError($"Failed to set FMOD ball-bounce volume: {result}", this);
+            bounceEvent.release();
+            return;
+        }
+
+        RuntimeManager.AttachInstanceToGameObject(bounceEvent, gameObject, body);
+        result = bounceEvent.start();
+        if (result != FMOD.RESULT.OK)
+            Debug.LogError($"Failed to start FMOD ball-bounce event: {result}", this);
+
+        result = bounceEvent.release();
+        if (result != FMOD.RESULT.OK)
+            Debug.LogError($"Failed to release FMOD ball-bounce event: {result}", this);
     }
 
     private void Update()
