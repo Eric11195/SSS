@@ -4995,7 +4995,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1417396177}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 86c6556701af9e04380698b89f691b6e, type: 3}
   m_Name: 
@@ -5914,6 +5914,7 @@ GameObject:
   - component: {fileID: 1611508862}
   - component: {fileID: 1611508861}
   - component: {fileID: 1611508860}
+  - component: {fileID: 1611508865}
   m_Layer: 0
   m_Name: Ball Outline
   m_TagString: Untagged
@@ -5933,6 +5934,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 257566eba976bb24d986a1f73632a2b4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FootballBall
+  minYSpeedToRustle: 0.15
+  minHeightToRustle: 0.05
+  minXSpeedToRustle: 0.15
   groundDrag: 1.8
   maxHeight: 10
   minBallSize: 0.5
@@ -5940,6 +5944,7 @@ MonoBehaviour:
   gravity: 8
   airRestitution: 0.4
   fullBounceVolumeImpactSpeed: 12
+  fullRustlingVolumeSpeed: 7
   playerInteractionHeight: 1
   height: 0
 --- !u!50 &1611508861
@@ -6082,6 +6087,20 @@ Transform:
   - {fileID: 1394848208}
   m_Father: {fileID: 2118577341}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1611508865
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1611508859}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86c6556701af9e04380698b89f691b6e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: FMODUnity::FMODUnity.StudioListener
+  nonRigidbodyVelocity: 0
+  attenuationObject: {fileID: 0}
 --- !u!1 &1622868234
 GameObject:
   m_ObjectHideFlags: 0
