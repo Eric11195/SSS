@@ -1,3 +1,4 @@
+using FMODUnity;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Controls;
@@ -11,6 +12,8 @@ public enum PlayerTeam
 [RequireComponent(typeof(Rigidbody2D), typeof(CircleCollider2D))]
 public sealed class PlayerController2D : MonoBehaviour
 {
+    private const string kickEventPath = "event:/Ball/Kick";
+
     [SerializeField] private float moveSpeed = 5f;
     [SerializeField] private float kickRadius = 0.9f;
     [SerializeField] private float kickForce = 7f;
@@ -46,6 +49,28 @@ public sealed class PlayerController2D : MonoBehaviour
     private void Start()
     {
         audioSystem = FindAnyObjectByType<GameAudioMock>();
+    }
+
+    private void playKickSound(float chargeRatio)
+    {
+        FMOD.Studio.EventInstance bounceEvent = RuntimeManager.CreateInstance(kickEventPath);
+        float volume = 1.0f;//0.5f+(chargeRatio*0.5f);
+        FMOD.RESULT result = bounceEvent.setVolume(volume);
+        if (result != FMOD.RESULT.OK)
+        {
+            Debug.LogError($"Failed to set FMOD ball-bounce volume: {result}", this);
+            bounceEvent.release();
+            return;
+        }
+        RuntimeManager.AttachInstanceToGameObject(bounceEvent, gameObject, body);
+
+        result = bounceEvent.start();
+        if (result != FMOD.RESULT.OK)
+            Debug.LogError($"Failed to start FMOD ball-bounce event: {result}", this);
+
+        result = bounceEvent.release();
+        if (result != FMOD.RESULT.OK)
+            Debug.LogError($"Failed to release FMOD ball-bounce event: {result}", this);
     }
 
     private void Update()
@@ -124,7 +149,7 @@ public sealed class PlayerController2D : MonoBehaviour
             minKickHeight,
             maxKickHeight,
             chargeRatio);
-        TryKick(targetHeight);
+        TryKick(targetHeight, chargeRatio);
         isChargingKick = false;
         kickChargeTime = 0f;
         ResetOutlineColor();
@@ -145,7 +170,7 @@ public sealed class PlayerController2D : MonoBehaviour
             outlineRenderer.color = originalOutlineColor;
     }
 
-    private void TryKick(float targetHeight)
+    private void TryKick(float targetHeight, float chargeRatio)
     {
         Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, kickRadius);
         for (int i = 0; i < hits.Length; i++)
@@ -160,6 +185,7 @@ public sealed class PlayerController2D : MonoBehaviour
 
             ball.Kick(direction.normalized, kickForce, (int)team, targetHeight);
             kickTimer = kickCooldown;
+            playKickSound(chargeRatio);
             break;
         }
     }

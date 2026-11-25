@@ -1,26 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-8420174799098870186
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
-  m_Name: bank:/Master.strings.bank
-  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorBankRef
-  Path: FMOD/prj/Build/Desktop/Master.strings.bank
-  Name: Master.strings
-  StudioPath: bank:/Master.strings
-  lastModified: 639312060859477445
-  FileSizes:
-  - Name: Desktop
-    Value: 1072
-  Exists: 1
---- !u!114 &-7737366521985693027
+--- !u!114 &-7298827551849545471
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -44,7 +24,209 @@ MonoBehaviour:
   IsGlobal: 1
   Labels: []
   Exists: 1
---- !u!114 &-6132164740479211116
+--- !u!114 &-7203503477525226297
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Ball/Kick
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorEventRef
+  Path: event:/Ball/Kick
+  Guid:
+    Data1: -2130468244
+    Data2: 1149898871
+    Data3: 333783965
+    Data4: -1561314366
+  Banks:
+  - {fileID: -841489060597462577}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 100
+  Length: 39
+--- !u!114 &-2849296617771899439
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/BackgroundHeightEffect
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorEventRef
+  Path: event:/BackgroundHeightEffect
+  Guid:
+    Data1: 1753601398
+    Data2: 1258627280
+    Data3: -1432621642
+    Data4: -1722884234
+  Banks:
+  - {fileID: -841489060597462577}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters:
+  - {fileID: 5070480892667235221}
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 0
+--- !u!114 &-841489060597462577
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
+  m_Name: bank:/Master.bank
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorBankRef
+  Path: FMOD/prj/Build/Desktop/Master.bank
+  Name: Master
+  StudioPath: bank:/Master
+  lastModified: 639312313337195784
+  FileSizes:
+  - Name: Desktop
+    Value: 899136
+  Exists: 1
+--- !u!114 &-166455244925068576
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/GoalSFX
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorEventRef
+  Path: event:/GoalSFX
+  Guid:
+    Data1: 1527676726
+    Data2: 1297881109
+    Data3: 707469220
+    Data4: 1027578192
+  Banks:
+  - {fileID: -841489060597462577}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 0
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d32cf7c32a3ed8347bac48ef5ed56d82, type: 3}
+  m_Name: FMODStudioCache
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EventCache
+  EditorBanks:
+  - {fileID: 5178734866069365300}
+  - {fileID: -841489060597462577}
+  EditorEvents:
+  - {fileID: 8447740355275021540}
+  - {fileID: -166455244925068576}
+  - {fileID: -2849296617771899439}
+  - {fileID: 6876435622357932183}
+  - {fileID: 4362443192137859475}
+  - {fileID: 437802308180823222}
+  - {fileID: -7203503477525226297}
+  EditorParameters:
+  - {fileID: -7298827551849545471}
+  MasterBanks:
+  - {fileID: -841489060597462577}
+  StringsBanks:
+  - {fileID: 5178734866069365300}
+  cacheVersion: 131861
+  cacheTime: 639312313337216965
+  SerializableEventsDict:
+  - key: event:/StartRoundSFX
+    index: 0
+  - key: event:/GoalSFX
+    index: 1
+  - key: event:/BackgroundHeightEffect
+    index: 2
+  - key: event:/Ball/BallRustling
+    index: 3
+  - key: event:/Ball/BallHitsNet
+    index: 4
+  - key: event:/Ball/BallFall
+    index: 5
+  - key: event:/Ball/Kick
+    index: 6
+--- !u!114 &437802308180823222
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Ball/BallFall
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorEventRef
+  Path: event:/Ball/BallFall
+  Guid:
+    Data1: -622970655
+    Data2: 1078759121
+    Data3: -1906462313
+    Data4: -1851791587
+  Banks:
+  - {fileID: -841489060597462577}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 24
+--- !u!114 &4362443192137859475
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Ball/BallHitsNet
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorEventRef
+  Path: event:/Ball/BallHitsNet
+  Guid:
+    Data1: -1692784988
+    Data2: 1158074242
+    Data3: -1074007112
+    Data4: -172778286
+  Banks:
+  - {fileID: -841489060597462577}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 0
+--- !u!114 &5070480892667235221
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -68,7 +250,27 @@ MonoBehaviour:
   IsGlobal: 1
   Labels: []
   Exists: 1
---- !u!114 &-2252017776609993645
+--- !u!114 &5178734866069365300
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
+  m_Name: bank:/Master.strings.bank
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorBankRef
+  Path: FMOD/prj/Build/Desktop/Master.strings.bank
+  Name: Master.strings
+  StudioPath: bank:/Master.strings
+  lastModified: 639312313337216965
+  FileSizes:
+  - Name: Desktop
+    Value: 1120
+  Exists: 1
+--- !u!114 &6876435622357932183
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -87,7 +289,7 @@ MonoBehaviour:
     Data3: 1934729897
     Data4: -153022031
   Banks:
-  - {fileID: 6101093055279621118}
+  - {fileID: -841489060597462577}
   IsStream: 0
   Is3D: 1
   IsOneShot: 1
@@ -95,187 +297,7 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 56828
---- !u!114 &-269070392446259527
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
-  m_Name: event:/Ball/BallFall
-  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorEventRef
-  Path: event:/Ball/BallFall
-  Guid:
-    Data1: -622970655
-    Data2: 1078759121
-    Data3: -1906462313
-    Data4: -1851791587
-  Banks:
-  - {fileID: 6101093055279621118}
-  IsStream: 0
-  Is3D: 1
-  IsOneShot: 1
-  Parameters: []
-  MinDistance: 1
-  MaxDistance: 20
-  Length: 24
---- !u!114 &11400000
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d32cf7c32a3ed8347bac48ef5ed56d82, type: 3}
-  m_Name: FMODStudioCache
-  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EventCache
-  EditorBanks:
-  - {fileID: -8420174799098870186}
-  - {fileID: 6101093055279621118}
-  EditorEvents:
-  - {fileID: 7376344501439009333}
-  - {fileID: 6873488915602313473}
-  - {fileID: 4860355499464477829}
-  - {fileID: -2252017776609993645}
-  - {fileID: 3565196665193949621}
-  - {fileID: -269070392446259527}
-  EditorParameters:
-  - {fileID: -7737366521985693027}
-  MasterBanks:
-  - {fileID: 6101093055279621118}
-  StringsBanks:
-  - {fileID: -8420174799098870186}
-  cacheVersion: 131861
-<<<<<<< HEAD
-  cacheTime: 639312273244265056
-=======
-  cacheTime: 639312060859477445
->>>>>>> bbeef988d2bbca3fe6319bf683e5315bfd4d7faf
-  SerializableEventsDict:
-  - key: event:/StartRoundSFX
-    index: 0
-  - key: event:/GoalSFX
-    index: 1
-  - key: event:/BackgroundHeightEffect
-    index: 2
-  - key: event:/Ball/BallRustling
-    index: 3
-  - key: event:/Ball/BallHitsNet
-    index: 4
-  - key: event:/Ball/BallFall
-    index: 5
---- !u!114 &3565196665193949621
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
-  m_Name: event:/Ball/BallHitsNet
-  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorEventRef
-  Path: event:/Ball/BallHitsNet
-  Guid:
-    Data1: -1692784988
-    Data2: 1158074242
-    Data3: -1074007112
-    Data4: -172778286
-  Banks:
-  - {fileID: 6101093055279621118}
-  IsStream: 0
-  Is3D: 0
-  IsOneShot: 1
-  Parameters: []
-  MinDistance: 1
-  MaxDistance: 20
-  Length: 0
---- !u!114 &4860355499464477829
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
-  m_Name: event:/BackgroundHeightEffect
-  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorEventRef
-  Path: event:/BackgroundHeightEffect
-  Guid:
-    Data1: 1753601398
-    Data2: 1258627280
-    Data3: -1432621642
-    Data4: -1722884234
-  Banks:
-  - {fileID: 6101093055279621118}
-  IsStream: 0
-  Is3D: 1
-  IsOneShot: 1
-  Parameters:
-  - {fileID: -6132164740479211116}
-  MinDistance: 1
-  MaxDistance: 20
-  Length: 0
---- !u!114 &6101093055279621118
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
-  m_Name: bank:/Master.bank
-  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorBankRef
-  Path: FMOD/prj/Build/Desktop/Master.bank
-  Name: Master
-  StudioPath: bank:/Master
-<<<<<<< HEAD
-  lastModified: 639312273244244671
-=======
-  lastModified: 639312060859477445
->>>>>>> bbeef988d2bbca3fe6319bf683e5315bfd4d7faf
-  FileSizes:
-  - Name: Desktop
-    Value: 894272
-  Exists: 1
---- !u!114 &6873488915602313473
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
-  m_Name: event:/GoalSFX
-  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorEventRef
-  Path: event:/GoalSFX
-  Guid:
-    Data1: 1527676726
-    Data2: 1297881109
-    Data3: 707469220
-    Data4: 1027578192
-  Banks:
-  - {fileID: 6101093055279621118}
-  IsStream: 0
-  Is3D: 1
-  IsOneShot: 1
-  Parameters: []
-  MinDistance: 1
-  MaxDistance: 20
-  Length: 0
---- !u!114 &7376344501439009333
+--- !u!114 &8447740355275021540
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -294,7 +316,7 @@ MonoBehaviour:
     Data3: -1496720501
     Data4: -1686652885
   Banks:
-  - {fileID: 6101093055279621118}
+  - {fileID: -841489060597462577}
   IsStream: 0
   Is3D: 0
   IsOneShot: 1

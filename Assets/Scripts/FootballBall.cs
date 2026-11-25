@@ -215,7 +215,7 @@ public sealed class FootballBall : MonoBehaviour
         if (direction.HasValue && direction.Value.sqrMagnitude > 0f)
         {
             Vector3 forward = new Vector3(direction.Value.x, direction.Value.y, 0f).normalized;
-            FMOD.ATTRIBUTES_3D attributes = RuntimeUtils.To3DAttributes(transform, body);
+            FMOD.ATTRIBUTES_3D attributes = RuntimeUtils.To3DAttributes(listener, body);
             attributes.forward = forward.ToFMODVector();
             attributes.up = Vector3.Cross(Vector3.forward, forward).ToFMODVector();
             result = bounceEvent.set3DAttributes(attributes);
