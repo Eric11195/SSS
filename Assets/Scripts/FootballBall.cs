@@ -112,7 +112,7 @@ public sealed class FootballBall : MonoBehaviour
         UpdateVisualHeight();
     }
 
-    private void PlayBallBounce(float impactSpeed)
+    private void PlayBallBounce(float impactSpeed, Vector2? direction = null)
     {
         FMOD.Studio.EventInstance bounceEvent = RuntimeManager.CreateInstance(BallBounceEventPath);
         float volume = Mathf.Clamp01(impactSpeed / Mathf.Max(0.01f, fullBounceVolumeImpactSpeed));
@@ -124,7 +124,25 @@ public sealed class FootballBall : MonoBehaviour
             return;
         }
 
-        RuntimeManager.AttachInstanceToGameObject(bounceEvent, gameObject, body);
+        if (direction.HasValue && direction.Value.sqrMagnitude > 0f)
+        {
+            Vector3 forward = new Vector3(direction.Value.x, direction.Value.y, 0f).normalized;
+            FMOD.ATTRIBUTES_3D attributes = RuntimeUtils.To3DAttributes(transform, body);
+            attributes.forward = forward.ToFMODVector();
+            attributes.up = Vector3.Cross(Vector3.forward, forward).ToFMODVector();
+            result = bounceEvent.set3DAttributes(attributes);
+            if (result != FMOD.RESULT.OK)
+            {
+                Debug.LogError($"Failed to set FMOD ball-bounce position and direction: {result}", this);
+                bounceEvent.release();
+                return;
+            }
+        }
+        else
+        {
+            RuntimeManager.AttachInstanceToGameObject(bounceEvent, gameObject, body);
+        }
+
         result = bounceEvent.start();
         if (result != FMOD.RESULT.OK)
             Debug.LogError($"Failed to start FMOD ball-bounce event: {result}", this);
@@ -191,9 +209,16 @@ public sealed class FootballBall : MonoBehaviour
             return;
 
         bool hitWall = collision.gameObject.CompareTag("Wall");
-        audioSystem?.PlayBallImpact(hitWall ? "wall" : "player", collision.relativeVelocity.magnitude);
+        float impactSpeed = collision.relativeVelocity.magnitude;
+        audioSystem?.PlayBallImpact(hitWall ? "wall" : "player", impactSpeed);
         if (hitWall)
-            PlayBallBounce(collision.relativeVelocity.magnitude);
+        {
+            Vector2 direction = collision.GetContact(0).point - body.position;
+            if (direction.sqrMagnitude == 0f)
+                direction = collision.relativeVelocity;
+
+            PlayBallBounce(impactSpeed, direction);
+        }
     }
 
     private void UpdatePlayerCollisionState()
