@@ -4,6 +4,8 @@ using UnityEngine.InputSystem;
 
 public sealed class FootballMatch : MonoBehaviour
 {
+    private const string GoalSfxEventPath = "event:/GoalSFX";
+
     [SerializeField] private GameObject refereeGO;
     [SerializeField] private float goalResetDelay = 2f;
     [SerializeField] private int goalsToWin = 3;
@@ -59,6 +61,11 @@ public sealed class FootballMatch : MonoBehaviour
             leftScore++;
         else
             rightScore++;
+
+        Vector3 arbiterPosition = refereeGO != null
+            ? refereeGO.transform.position
+            : referee != null ? referee.transform.position : transform.position;
+        RuntimeManager.PlayOneShot(GoalSfxEventPath, arbiterPosition);
 
         audioSystem?.PlayGoal(scoringTeam);
         if (ball != null)
