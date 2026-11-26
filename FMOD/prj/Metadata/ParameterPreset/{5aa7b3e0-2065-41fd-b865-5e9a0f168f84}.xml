@@ -15,5 +15,22 @@
 		<property name="initialValue">
 			<value>0</value>
 		</property>
+		<relationship name="modulators">
+			<destination>{d8d3a20a-c2bc-4f71-a5a2-0b4585f3ebd3}</destination>
+		</relationship>
+	</object>
+	<object class="SeekModulator" id="{d8d3a20a-c2bc-4f71-a5a2-0b4585f3ebd3}">
+		<property name="nameOfPropertyBeingModulated">
+			<value>cursorPosition</value>
+		</property>
+		<property name="speedAscending">
+			<value>0.39999997615814209</value>
+		</property>
+		<property name="speedDescending">
+			<value>1.5</value>
+		</property>
+		<property name="asymmetric">
+			<value>true</value>
+		</property>
 	</object>
 </objects>
