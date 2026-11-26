@@ -16,6 +16,9 @@ public class StandSoundLocator : MonoBehaviour
     [SerializeField] Transform emisor1 = null;
     [SerializeField] AnimationCurve projectionRemap = null;
 
+    [SerializeField] private float distanceBias = 1.0f;
+    [SerializeField] private float distancePower = 2.0f;
+
     double area = 0.0;
 
     static double Area(Vector3 v0, Vector3 v1, Vector3 v2)
@@ -38,7 +41,7 @@ public class StandSoundLocator : MonoBehaviour
         area = Area(vertex.position, emisor0.position, emisor1.position);
     }
 
-    static Vector3 PositionPreserveArea(Vector3 destination0, Vector3 destination1, double t, double area, Vector3 vertex, out double b, out Vector3 d)
+    Vector3 PositionPreserveArea(Vector3 destination0, Vector3 destination1, double t, double area, Vector3 vertex, out double b, out Vector3 d)
     {
         d = destination1 - destination0;
         double distance = (
@@ -47,7 +50,8 @@ public class StandSoundLocator : MonoBehaviour
         ).magnitude;
         // a = b * h / 2
         // 2 * a / h = b
-        b = 2.0 * area / distance;
+        double modulatedDistance = Mathf.Pow((float)distance + distanceBias, distancePower);
+        b = 2.0 * area / modulatedDistance;
 
         return Vector3.LerpUnclamped(destination0, destination1, Mathf.Clamp((float)t, -1.0f, 1.0f));
     }

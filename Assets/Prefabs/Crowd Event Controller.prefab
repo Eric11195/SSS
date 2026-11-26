@@ -252,6 +252,8 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  distanceBias: 3
+  distancePower: 1.2
 --- !u!1 &3792051184045462682
 GameObject:
   m_ObjectHideFlags: 0
