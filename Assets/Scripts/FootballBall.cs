@@ -97,7 +97,7 @@ public sealed class FootballBall : MonoBehaviour
                 }
             }
         }
-        ballFmodAudio?.SetListenerHeight(height);
+        ballFmodAudio.SetListenerHeight(height);
         parameterSetter?.SetBallState(Position, height);
         if (groundImpactSpeed > 0f)
         {
