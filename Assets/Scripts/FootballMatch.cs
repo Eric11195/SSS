@@ -1,14 +1,18 @@
+using FMODUnity;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 public sealed class FootballMatch : MonoBehaviour
 {
+    [SerializeField] private GameObject refereeGO;
     [SerializeField] private float goalResetDelay = 2f;
     [SerializeField] private int goalsToWin = 3;
+    private string whistleEventPath = "event:/StartRoundSFX";
 
     private int leftScore;
     private int rightScore;
     private FootballBall ball;
+    private RefereeController2D referee;
     private float resetTimer = -1f;
     private bool matchOver;
     private IGameAudio audioSystem;
@@ -16,7 +20,11 @@ public sealed class FootballMatch : MonoBehaviour
     private void Start()
     {
         ball = FindAnyObjectByType<FootballBall>();
+        referee = refereeGO != null
+            ? refereeGO.GetComponent<RefereeController2D>()
+            : FindAnyObjectByType<RefereeController2D>();
         audioSystem = FindAnyObjectByType<GameAudioMock>();
+        ResetPositions();
     }
 
     private void Update()
@@ -65,7 +73,15 @@ public sealed class FootballMatch : MonoBehaviour
     private void ResetPositions()
     {
         ball?.ResetBall(Vector3.zero);
-        foreach (PlayerController2D player in         FindObjectsByType<PlayerController2D>())
+        if (referee == null)
+            referee = refereeGO != null
+                ? refereeGO.GetComponent<RefereeController2D>()
+                : FindAnyObjectByType<RefereeController2D>();
+
+        if (referee != null)
+            referee.ResetPosition(ball != null ? ball.transform.position : Vector3.zero);
+
+        foreach (PlayerController2D player in FindObjectsByType<PlayerController2D>())
         {
             player.transform.position = player.team == PlayerTeam.Left
                 ? new Vector3(-4.5f, 0f, 0f)
@@ -73,6 +89,24 @@ public sealed class FootballMatch : MonoBehaviour
             Rigidbody2D body = player.GetComponent<Rigidbody2D>();
             if (body != null)
                 body.linearVelocity = Vector2.zero;
+        }
+
+        FMOD.Studio.EventInstance newEvent = RuntimeManager.CreateInstance(whistleEventPath);
+        if (!newEvent.isValid())
+        {
+            Debug.LogError($"Failed to create FMOD event: {whistleEventPath}", this);
+            return;
+        }
+
+        GameObject whistleObject = refereeGO != null ? refereeGO : referee != null ? referee.gameObject : null;
+        if (whistleObject != null)
+            RuntimeManager.AttachInstanceToGameObject(newEvent, whistleObject);
+        FMOD.RESULT result = newEvent.start();
+        if (result != FMOD.RESULT.OK)
+        {
+            Debug.LogError($"Failed to start FMOD ball-rustling event: {result}", this);
+            newEvent.release();
+            return;
         }
     }
 

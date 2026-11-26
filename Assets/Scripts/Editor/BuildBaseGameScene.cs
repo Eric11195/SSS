@@ -35,6 +35,7 @@ public static class BuildBaseGameScene
         left.team = PlayerTeam.Left;
         right.team = PlayerTeam.Right;
         CreateBall();
+        CreateReferee();
 
         EditorSceneManager.MarkSceneDirty(scene);
         EditorSceneManager.SaveScene(scene, "Assets/Scenes/SampleScene.unity");
@@ -211,6 +212,17 @@ public static class BuildBaseGameScene
         body.freezeRotation = true;
         body.linearDamping = 2.2f;
         ball.AddComponent<FootballBall>();
+    }
+
+    private static void CreateReferee()
+    {
+        GameObject referee = new GameObject("Referee");
+        referee.AddComponent<CircleCollider2D>();
+        Rigidbody2D body = referee.AddComponent<Rigidbody2D>();
+        body.gravityScale = 0f;
+        body.freezeRotation = true;
+        body.linearDamping = 8f;
+        referee.AddComponent<RefereeController2D>();
     }
 
     private static GameObject CreateBox(string name, Vector3 position, Vector3 size, Color color, float z)
