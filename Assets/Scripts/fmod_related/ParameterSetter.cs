@@ -40,12 +40,10 @@ public sealed class ParameterSetter : MonoBehaviour
     private const string TensionParameter = "tension";
     private const string AmbienceEventPath = "event:/Ambience";
 
-    private FMOD.Studio.EventInstance ambienceEvent;
     [SerializeField] private StadiumTensionArea[] tensionAreas = System.Array.Empty<StadiumTensionArea>();
     private Vector3 ballPosition;
     private float ballHeight;
     private float tension;
-    private bool hasAmbienceEvent;
     private bool hasLoggedHeightError;
     private bool hasLoggedTensionError;
 
@@ -56,28 +54,6 @@ public sealed class ParameterSetter : MonoBehaviour
         tensionAreas = areas != null
             ? (StadiumTensionArea[])areas.Clone()
             : System.Array.Empty<StadiumTensionArea>();
-    }
-
-    private void Start()
-    {
-        ambienceEvent = RuntimeManager.CreateInstance(AmbienceEventPath);
-        if (!ambienceEvent.isValid())
-        {
-            Debug.LogError($"Failed to create FMOD event: {AmbienceEventPath}", this);
-            return;
-        }
-
-        GameObject eventAnchor = gameObject;
-        RuntimeManager.AttachInstanceToGameObject(ambienceEvent, eventAnchor);
-        FMOD.RESULT result = ambienceEvent.start();
-        if (result != FMOD.RESULT.OK)
-        {
-            Debug.LogError($"Failed to start FMOD ambience event: {result}", this);
-            ambienceEvent.release();
-            return;
-        }
-
-        hasAmbienceEvent = true;
     }
 
     public void SetBallState(Vector3 position, float height)
@@ -123,10 +99,7 @@ public sealed class ParameterSetter : MonoBehaviour
             hasLoggedHeightError = true;
         }
 
-        if (!hasAmbienceEvent)
-            return;
-
-        result = ambienceEvent.setParameterByName(TensionParameter, tension);
+        result = RuntimeManager.StudioSystem.setParameterByName(TensionParameter, tension);
         if (result == FMOD.RESULT.OK)
         {
             hasLoggedTensionError = false;
@@ -136,20 +109,6 @@ public sealed class ParameterSetter : MonoBehaviour
             Debug.LogError($"Failed to set FMOD ambience parameter '{TensionParameter}': {result}", this);
             hasLoggedTensionError = true;
         }
-    }
-
-    private void OnDestroy()
-    {
-        if (!hasAmbienceEvent)
-            return;
-
-        FMOD.RESULT result = ambienceEvent.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
-        if (result != FMOD.RESULT.OK)
-            Debug.LogError($"Failed to stop FMOD ambience event: {result}", this);
-
-        result = ambienceEvent.release();
-        if (result != FMOD.RESULT.OK)
-            Debug.LogError($"Failed to release FMOD ambience event: {result}", this);
     }
 
     private void OnDrawGizmosSelected()

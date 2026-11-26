@@ -8,7 +8,7 @@
 			<value>Ambience</value>
 		</property>
 		<property name="outputFormat">
-			<value>5</value>
+			<value>2</value>
 		</property>
 		<relationship name="folder">
 			<destination>{df1b0c7f-4324-43b7-a4be-c77a0b3eca63}</destination>
@@ -67,7 +67,14 @@
 			<destination>{2405a744-6c37-4c3a-9f0b-282f45b0ed1e}</destination>
 		</relationship>
 	</object>
-	<object class="EventAutomatableProperties" id="{32540612-7683-4f5d-ab7a-7c7b8ec2f357}" />
+	<object class="EventAutomatableProperties" id="{32540612-7683-4f5d-ab7a-7c7b8ec2f357}">
+		<property name="isPersistent">
+			<value>true</value>
+		</property>
+		<property name="priority">
+			<value>1</value>
+		</property>
+	</object>
 	<object class="MarkerTrack" id="{94cc3062-0796-4811-8c09-15e81373c26f}" />
 	<object class="GroupTrack" id="{d7271d77-fa61-413f-9ae2-7f31201d943a}">
 		<relationship name="modules">
@@ -147,9 +154,6 @@
 	</object>
 	<object class="MixerBusPanner" id="{8e73a9ad-6185-4d60-a50a-4a2d5de24d2f}" />
 	<object class="MultiSound" id="{7b112bfc-b2c4-448b-bb6c-9e1613be94d7}">
-		<property name="length">
-			<value>1.0000000000000002</value>
-		</property>
 		<property name="looping">
 			<value>true</value>
 		</property>
@@ -356,6 +360,7 @@
 	<object class="MixerBusEffectChain" id="{e3f573c7-c8e8-4412-96d7-ac1127697c00}">
 		<relationship name="effects">
 			<destination>{9b5b6846-60b3-43fb-bf68-4d7093453ed1}</destination>
+			<destination>{d974a46c-5c64-4658-8dba-e170a79bc769}</destination>
 		</relationship>
 	</object>
 	<object class="MixerBusPanner" id="{5f7f30b3-42d2-46ee-92f9-6e5b3de7d374}" />
@@ -535,6 +540,11 @@
 		</relationship>
 	</object>
 	<object class="MixerBusFader" id="{9b5b6846-60b3-43fb-bf68-4d7093453ed1}" />
+	<object class="SpatialiserEffect" id="{d974a46c-5c64-4658-8dba-e170a79bc769}">
+		<property name="distanceRolloffType">
+			<value>1</value>
+		</property>
+	</object>
 	<object class="MixerBusFader" id="{ed3d9e23-cd1d-4e85-9f69-9a6d0b1a8b6e}" />
 	<object class="AutomationCurve" id="{0500bb97-f571-4997-8895-412d44454f13}">
 		<relationship name="parameter">
