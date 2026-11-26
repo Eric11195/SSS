@@ -1,18 +1,47 @@
 using FMODUnity;
 using UnityEngine;
 
+[System.Serializable]
+public struct StadiumTensionArea
+{
+    [SerializeField] private Transform center;
+    [SerializeField, Min(0f)] private float innerRadius;
+    [SerializeField, Min(0f)] private float outerRadius;
+    [SerializeField] private AnimationCurve curve;
+
+    public Transform Center => center;
+    public float InnerRadius => Mathf.Max(0f, innerRadius);
+    public float OuterRadius => Mathf.Max(InnerRadius + 0.01f, outerRadius);
+
+    public StadiumTensionArea(Transform center, float innerRadius, float outerRadius, AnimationCurve curve)
+    {
+        this.center = center;
+        this.innerRadius = Mathf.Max(0f, innerRadius);
+        this.outerRadius = Mathf.Max(this.innerRadius + 0.01f, outerRadius);
+        this.curve = curve ?? AnimationCurve.Linear(0f, 1f, 1f, 0f);
+    }
+
+    public float Evaluate(Vector3 position, Transform fallbackCenter)
+    {
+        Transform areaCenter = center != null ? center : fallbackCenter;
+        if (areaCenter == null)
+            return 0f;
+
+        float distance = Vector2.Distance(
+            new Vector2(position.x, position.y),
+            new Vector2(areaCenter.position.x, areaCenter.position.y));
+        return ParameterSetter.EvaluateTension(distance, InnerRadius, OuterRadius, curve);
+    }
+}
+
 public sealed class ParameterSetter : MonoBehaviour
 {
     private const string BallHeightParameter = "BallHeight";
     private const string TensionParameter = "tension";
     private const string AmbienceEventPath = "event:/Ambience";
 
-    [SerializeField] private Transform tensionCenter;
-    [SerializeField, Min(0f)] private float innerRadius = 2f;
-    [SerializeField, Min(0.01f)] private float outerRadius = 8f;
-    [SerializeField] private AnimationCurve tensionCurve = AnimationCurve.Linear(0f, 0f, 1f, 1f);
-
     private FMOD.Studio.EventInstance ambienceEvent;
+    [SerializeField] private StadiumTensionArea[] tensionAreas = System.Array.Empty<StadiumTensionArea>();
     private Vector3 ballPosition;
     private float ballHeight;
     private float tension;
@@ -22,12 +51,11 @@ public sealed class ParameterSetter : MonoBehaviour
 
     public float Tension => tension;
 
-    public void ConfigureTensionArea(Transform center, float inner, float outer, AnimationCurve curve)
+    public void ConfigureTensionAreas(StadiumTensionArea[] areas)
     {
-        tensionCenter = center;
-        innerRadius = Mathf.Max(0f, inner);
-        outerRadius = Mathf.Max(innerRadius + 0.01f, outer);
-        tensionCurve = curve;
+        tensionAreas = areas != null
+            ? (StadiumTensionArea[])areas.Clone()
+            : System.Array.Empty<StadiumTensionArea>();
     }
 
     private void Start()
@@ -39,7 +67,7 @@ public sealed class ParameterSetter : MonoBehaviour
             return;
         }
 
-        GameObject eventAnchor = tensionCenter != null ? tensionCenter.gameObject : gameObject;
+        GameObject eventAnchor = gameObject;
         RuntimeManager.AttachInstanceToGameObject(ambienceEvent, eventAnchor);
         FMOD.RESULT result = ambienceEvent.start();
         if (result != FMOD.RESULT.OK)
@@ -62,15 +90,17 @@ public sealed class ParameterSetter : MonoBehaviour
 
     public float CalculateTension(Vector3 position)
     {
-        Vector3 center = tensionCenter != null ? tensionCenter.position : transform.position;
-        float distance = Vector2.Distance(new Vector2(position.x, position.y), new Vector2(center.x, center.y));
-        return EvaluateTension(distance, innerRadius, outerRadius, tensionCurve);
+        float totalTension = 0f;
+        foreach (StadiumTensionArea area in tensionAreas)
+            totalTension += area.Evaluate(position, transform);
+
+        return Mathf.Clamp01(totalTension);
     }
 
     public static float EvaluateTension(float distance, float inner, float outer, AnimationCurve curve)
     {
         float normalizedDistance = Mathf.InverseLerp(inner, Mathf.Max(inner + 0.01f, outer), distance);
-        float curveValue = curve != null ? curve.Evaluate(normalizedDistance) : normalizedDistance;
+        float curveValue = curve != null ? curve.Evaluate(normalizedDistance) : 1f - normalizedDistance;
         return Mathf.Clamp01(curveValue);
     }
 
@@ -120,5 +150,16 @@ public sealed class ParameterSetter : MonoBehaviour
         result = ambienceEvent.release();
         if (result != FMOD.RESULT.OK)
             Debug.LogError($"Failed to release FMOD ambience event: {result}", this);
+    }
+
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.yellow;
+        foreach (StadiumTensionArea area in tensionAreas)
+        {
+            Transform center = area.Center != null ? area.Center : transform;
+            Gizmos.DrawWireSphere(center.position, area.InnerRadius);
+            Gizmos.DrawWireSphere(center.position, area.OuterRadius);
+        }
     }
 }

@@ -1,12 +1,15 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 
 public sealed class FootballSceneBootstrap : MonoBehaviour
 {
-    [SerializeField] private Transform stadiumTensionCenter;
-    [SerializeField, Min(0f)] private float standTensionInnerRadius = 2f;
-    [SerializeField, Min(0.01f)] private float standTensionOuterRadius = 8f;
-    [SerializeField] private AnimationCurve standTensionCurve = AnimationCurve.Linear(0f, 0f, 1f, 1f);
+    [SerializeField] private StadiumTensionArea[] stadiumTensionAreas =
+    {
+        new StadiumTensionArea(null, 2f, 8f, null)
+    };
 
     private static readonly Color Outline = new Color(0.16f, 0.19f, 0.24f);
     private static readonly Color Pitch = new Color(0.58f, 0.78f, 0.68f);
@@ -27,11 +30,7 @@ public sealed class FootballSceneBootstrap : MonoBehaviour
         matchRoot.transform.SetParent(transform);
         matchRoot.AddComponent<GameAudioMock>();
         ParameterSetter parameterSetter = matchRoot.AddComponent<ParameterSetter>();
-        parameterSetter.ConfigureTensionArea(
-            stadiumTensionCenter,
-            standTensionInnerRadius,
-            standTensionOuterRadius,
-            standTensionCurve);
+        parameterSetter.ConfigureTensionAreas(stadiumTensionAreas);
         matchRoot.AddComponent<FootballMatch>();
 
         CreatePlayer("Blue Player", new Vector3(-4.5f, 0f, -1f), LeftTeam, PlayerTeam.Left);
@@ -39,6 +38,26 @@ public sealed class FootballSceneBootstrap : MonoBehaviour
         CreateBall();
         CreateReferee();
     }
+
+#if UNITY_EDITOR
+    private void OnDrawGizmosSelected()
+    {
+        if (stadiumTensionAreas == null)
+            return;
+
+        Color previousColor = Handles.color;
+        foreach (StadiumTensionArea area in stadiumTensionAreas)
+        {
+            Transform center = area.Center != null ? area.Center : transform;
+            Handles.color = Color.green;
+            Handles.DrawWireDisc(center.position, Vector3.forward, area.InnerRadius);
+            Handles.color = new Color(1f, 0.6f, 0.1f);
+            Handles.DrawWireDisc(center.position, Vector3.forward, area.OuterRadius);
+        }
+
+        Handles.color = previousColor;
+    }
+#endif
 
     private static void CreateCamera()
     {
