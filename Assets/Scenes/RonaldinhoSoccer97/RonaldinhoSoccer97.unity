@@ -7407,6 +7407,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 300423051902884642, guid: 4c53733cb255c6644b18fac9ff6bcac2, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5189304268057322378, guid: 4c53733cb255c6644b18fac9ff6bcac2, type: 3}
       propertyPath: m_LocalPosition.x
       value: -0
@@ -7454,8 +7458,52 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 8985832851236803815, guid: 4c53733cb255c6644b18fac9ff6bcac2, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1408439670470259695}
   m_SourcePrefab: {fileID: 100100000, guid: 4c53733cb255c6644b18fac9ff6bcac2, type: 3}
+--- !u!1 &1408439670470259694 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8985832851236803815, guid: 4c53733cb255c6644b18fac9ff6bcac2, type: 3}
+  m_PrefabInstance: {fileID: 1408439670470259693}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1408439670470259695
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1408439670470259694}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a6610d2e704f1648819acc8d7460285, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: FMODUnity::FMODUnity.StudioEventEmitter
+  CollisionTag: 
+  EventReference:
+    Guid:
+      Data1: -1252197574
+      Data2: 1218797669
+      Data3: 1933486243
+      Data4: 1000317617
+    Path: event:/Ambience
+  Event: 
+  EventPlayTrigger: 1
+  EventStopTrigger: 2
+  AllowFadeout: 1
+  TriggerOnce: 0
+  Preload: 0
+  NonRigidbodyVelocity: 0
+  Params:
+  - Name: tension
+    Value: 0.5
+    ID:
+      data1: 0
+      data2: 0
+  OverrideAttenuation: 0
+  OverrideMinDistance: 1
+  OverrideMaxDistance: 20
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
