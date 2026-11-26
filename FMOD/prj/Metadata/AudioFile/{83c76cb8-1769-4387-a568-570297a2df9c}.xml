@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.03.00">
+	<object class="AudioFile" id="{83c76cb8-1769-4387-a568-570297a2df9c}">
+		<property name="assetPath">
+			<value>processed/birds/sparrow1.wav</value>
+		</property>
+		<property name="frequencyInKHz">
+			<value>44.0999985</value>
+		</property>
+		<property name="channelCount">
+			<value>1</value>
+		</property>
+		<property name="length">
+			<value>0.31970521541950114</value>
+		</property>
+		<relationship name="masterAssetFolder">
+			<destination>{c5548e92-7229-4ac6-b9c1-5871d0696ba3}</destination>
+		</relationship>
+	</object>
+</objects>
