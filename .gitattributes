@@ -11,3 +11,21 @@ Assets/Plugins/FMOD/**/*.framework/** filter=lfs diff=lfs merge=lfs -text
 Assets/Plugins/FMOD/**/*.bundle text eol=lf
 Assets/Plugins/FMOD/**/Info.plist text eol=lf
 FMOD/prj/Build/**/*.bank text eol=lf
+
+FMOD/prj/Assets/processed/ambience/ambience.aup4 filter=lfs diff=lfs merge=lfs -text
+FMOD/prj/Assets/processed/ball_rustling.wav filter=lfs diff=lfs merge=lfs -text
+FMOD/prj/Assets/processed/ambience/00-ambience.wav filter=lfs diff=lfs merge=lfs -text
+FMOD/prj/Assets/processed/ambience/00-ambience-no-voice.wav filter=lfs diff=lfs merge=lfs -text
+FMOD/prj/Assets/processed/ambience/01-ambience.wav filter=lfs diff=lfs merge=lfs -text
+FMOD/prj/Assets/processed/ambience/01-ovation.wav filter=lfs diff=lfs merge=lfs -text
+FMOD/prj/Assets/processed/ambience/00-ovation.wav filter=lfs diff=lfs merge=lfs -text
+FMOD/prj/Assets/processed/rocket/jci21-rocket-launch-sfx-253937.mp3 filter=lfs diff=lfs merge=lfs -text
+FMOD/prj/Assets/soundAssets/liecio-space-sound-mid-109575.mp3 filter=lfs diff=lfs merge=lfs -text
+FMOD/prj/Assets/soundAssets/freesound_community-goal-radio-espagnol-55857.mp3 filter=lfs diff=lfs merge=lfs -text
+FMOD/prj/Assets/soundAssets/jci21-rocket-launch-sfx-253937.mp3 filter=lfs diff=lfs merge=lfs -text
+FMOD/prj/Assets/soundAssets/mrmark81-stadium-roar-concert-for-hire-message-me-471943.mp3 filter=lfs diff=lfs merge=lfs -text
+FMOD/prj/Assets/soundAssets/freesound_community-rocket-blastoff-76735.mp3 filter=lfs diff=lfs merge=lfs -text
+FMOD/prj/Assets/soundAssets/dragon-studio-winter-wind-402331.mp3 filter=lfs diff=lfs merge=lfs -text
+FMOD/prj/Assets/soundAssets/loswin23-bird-chirp-499423.mp3 filter=lfs diff=lfs merge=lfs -text
+FMOD/prj/Assets/soundAssets/arunangshubanerjee-live-football-match-stadium-crowd-cheering-563439.mp3 filter=lfs diff=lfs merge=lfs -text
+FMOD/prj/Build/Desktop/Master.bank filter=lfs diff=lfs merge=lfs -text

@@ -1,25 +1,15 @@
-using FMODUnity;
 using UnityEngine;
 
-[RequireComponent(typeof(Rigidbody2D), typeof(CircleCollider2D))]
+[RequireComponent(typeof(Rigidbody2D), typeof(CircleCollider2D), typeof(BallFmodAudio))]
 public sealed class FootballBall : MonoBehaviour
 {
-    private const string BallBounceEventPath = "event:/Ball/BallFall";
-    private const string BallRustlingEventPath = "event:/Ball/BallRustling";
-    [SerializeField] private float minYSpeedToRustle = 0.15f;
-    [SerializeField] private float minHeightToRustle = 0.05f;
-    [SerializeField] private float minXSpeedToRustle = 0.15f;
-
     [SerializeField] private float groundDrag = 2.2f;
     [SerializeField] private float maxHeight = 3f;
     [SerializeField] private float minBallSize = 0.62f;
     [SerializeField] private float maxBallSize = 0.82f;
     [SerializeField] private float gravity = 8f;
     [SerializeField] private float airRestitution = 0.35f;
-    [SerializeField, Min(0.01f)] private float fullBounceVolumeImpactSpeed = 10f;
-    [SerializeField, Min(0.01f)] private float fullRustlingVolumeSpeed = 7f;
     [SerializeField] private float playerInteractionHeight = 0.5f;
-    [SerializeField] private Transform listener;
 
     private Rigidbody2D body;
     private Collider2D ballCollider;
@@ -29,22 +19,25 @@ public sealed class FootballBall : MonoBehaviour
     private SpriteRenderer shadowRenderer;
     private Color originalBallCoreColor;
     private IGameAudio audioSystem;
-    private FMOD.Studio.EventInstance ballRustlingEvent;
-    [SerializeField]
-    private float height;
+    private BallFmodAudio ballFmodAudio;
+    private ParameterSetter parameterSetter;
+    [SerializeField] private float height;
     private float verticalVelocity;
     private bool wasGrounded = true;
     private bool isIgnoringPlayerCollisions;
-    private bool hasBallRustlingEvent;
-    private bool isBallRustlingPaused = true;
 
     public float Height => height;
+    public float NormalizedHeight => Mathf.Clamp01(height / Mathf.Max(0.01f, maxHeight));
+    public float VerticalVelocity => verticalVelocity;
+    public Vector3 Position => transform.position;
     public bool CanBeKicked => height <= playerInteractionHeight;
     public float GroundSpeed => body != null ? body.linearVelocity.magnitude : 0f;
+    public bool IsGrounded => height <= 0.02f;
 
     private void Awake()
     {
         body = GetComponent<Rigidbody2D>();
+        ballFmodAudio = GetComponent<BallFmodAudio>();
         ballCollider = GetComponent<Collider2D>();
         body.gravityScale = 0f;
         body.linearDamping = groundDrag;
@@ -66,6 +59,7 @@ public sealed class FootballBall : MonoBehaviour
     private void Start()
     {
         audioSystem = FindAnyObjectByType<GameAudioMock>();
+        parameterSetter = FindAnyObjectByType<ParameterSetter>();
         PlayerController2D[] players = FindObjectsByType<PlayerController2D>();
         playerColliders = new Collider2D[players.Length];
         for (int i = 0; i < players.Length; i++)
@@ -78,13 +72,9 @@ public sealed class FootballBall : MonoBehaviour
         UpdatePlayerCollisionState();
     }
 
-    private float toMeters(float virtualHeight)
-    {
-        return virtualHeight * 8.0f;
-    }
-
     private void FixedUpdate()
     {
+        float groundImpactSpeed = 0f;
         if (height > 0f || verticalVelocity > 0f)
         {
             float previousVerticalVelocity = verticalVelocity;
@@ -96,9 +86,7 @@ public sealed class FootballBall : MonoBehaviour
                 height = 0f;
                 if (verticalVelocity < -0.5f)
                 {
-                    float impactSpeed = Mathf.Abs(verticalVelocity);
-                    audioSystem?.PlayBallImpact("ground", impactSpeed);
-                    PlayBallBounce(impactSpeed);
+                    groundImpactSpeed = Mathf.Abs(verticalVelocity);
                     verticalVelocity = -verticalVelocity * airRestitution;
                     if (verticalVelocity < 1f)
                         verticalVelocity = 0f;
@@ -109,8 +97,14 @@ public sealed class FootballBall : MonoBehaviour
                 }
             }
         }
-        listener.position = new Vector3(listener.position.x, listener.position.y, toMeters(height));
-        ParameterSetter.SetBallHeight(height);
+        ballFmodAudio?.SetListenerHeight(height);
+        parameterSetter?.SetBallState(Position, height);
+        if (groundImpactSpeed > 0f)
+        {
+            audioSystem?.PlayBallImpact("ground", groundImpactSpeed);
+            ballFmodAudio?.PlayBounce(groundImpactSpeed);
+        }
+
         UpdatePlayerCollisionState();
 
         bool grounded = height <= 0.02f;
@@ -123,146 +117,19 @@ public sealed class FootballBall : MonoBehaviour
         if (grounded)
             audioSystem?.PlayBallRoll(body.linearVelocity.sqrMagnitude > 0.08f, body.linearVelocity.magnitude);
 
-        UpdateBallRustling(height <= minHeightToRustle && verticalVelocity < minYSpeedToRustle, body.linearVelocity.magnitude);
+        ballFmodAudio?.UpdateRustling(height, verticalVelocity, body.linearVelocity.magnitude);
         UpdateVisualHeight();
-    }
-
-    private void UpdateBallRustling(bool isOnFloor, float horizontalSpeed)
-    {
-        float volume = isOnFloor
-            ? Mathf.Clamp01((horizontalSpeed-minXSpeedToRustle) / Mathf.Max(0.01f, fullRustlingVolumeSpeed))
-            : 0f;
-
-        if (volume <= 0f)
-        {
-            if (!hasBallRustlingEvent || isBallRustlingPaused)
-                return;
-
-            FMOD.RESULT result = ballRustlingEvent.setVolume(0f);
-            if (result != FMOD.RESULT.OK)
-                Debug.LogError($"Failed to set FMOD ball-rustling volume: {result}", this);
-
-            result = ballRustlingEvent.setPaused(true);
-            if (result != FMOD.RESULT.OK)
-                Debug.LogError($"Failed to pause FMOD ball-rustling event: {result}", this);
-            else
-                isBallRustlingPaused = true;
-
-            return;
-        }
-
-        if (!hasBallRustlingEvent)
-        {
-            FMOD.Studio.EventInstance newEvent = RuntimeManager.CreateInstance(BallRustlingEventPath);
-            if (!newEvent.isValid())
-            {
-                Debug.LogError($"Failed to create FMOD event: {BallRustlingEventPath}", this);
-                return;
-            }
-
-            RuntimeManager.AttachInstanceToGameObject(newEvent, gameObject, body);
-            FMOD.RESULT result = newEvent.setVolume(volume);
-            if (result != FMOD.RESULT.OK)
-            {
-                Debug.LogError($"Failed to set FMOD ball-rustling volume: {result}", this);
-                newEvent.release();
-                return;
-            }
-
-            result = newEvent.start();
-            if (result != FMOD.RESULT.OK)
-            {
-                Debug.LogError($"Failed to start FMOD ball-rustling event: {result}", this);
-                newEvent.release();
-                return;
-            }
-
-            ballRustlingEvent = newEvent;
-            hasBallRustlingEvent = true;
-            isBallRustlingPaused = false;
-            return;
-        }
-
-        FMOD.RESULT updateResult = ballRustlingEvent.setVolume(volume);
-        if (updateResult != FMOD.RESULT.OK)
-        {
-            Debug.LogError($"Failed to set FMOD ball-rustling volume: {updateResult}", this);
-            return;
-        }
-
-        if (isBallRustlingPaused)
-        {
-            updateResult = ballRustlingEvent.setPaused(false);
-            if (updateResult != FMOD.RESULT.OK)
-                Debug.LogError($"Failed to resume FMOD ball-rustling event: {updateResult}", this);
-            else
-                isBallRustlingPaused = false;
-        }
-    }
-
-    private void PlayBallBounce(float impactSpeed, Vector2? direction = null)
-    {
-        FMOD.Studio.EventInstance bounceEvent = RuntimeManager.CreateInstance(BallBounceEventPath);
-        float volume = Mathf.Clamp01(impactSpeed / Mathf.Max(0.01f, fullBounceVolumeImpactSpeed));
-        FMOD.RESULT result = bounceEvent.setVolume(volume);
-        if (result != FMOD.RESULT.OK)
-        {
-            Debug.LogError($"Failed to set FMOD ball-bounce volume: {result}", this);
-            bounceEvent.release();
-            return;
-        }
-
-        if (direction.HasValue && direction.Value.sqrMagnitude > 0f)
-        {
-            Vector3 forward = new Vector3(direction.Value.x, direction.Value.y, 0f).normalized;
-            FMOD.ATTRIBUTES_3D attributes = RuntimeUtils.To3DAttributes(listener, body);
-            attributes.forward = forward.ToFMODVector();
-            attributes.up = Vector3.Cross(Vector3.forward, forward).ToFMODVector();
-            result = bounceEvent.set3DAttributes(attributes);
-            if (result != FMOD.RESULT.OK)
-            {
-                Debug.LogError($"Failed to set FMOD ball-bounce position and direction: {result}", this);
-                bounceEvent.release();
-                return;
-            }
-        }
-        else
-        {
-            RuntimeManager.AttachInstanceToGameObject(bounceEvent, gameObject, body);
-        }
-
-        result = bounceEvent.start();
-        if (result != FMOD.RESULT.OK)
-            Debug.LogError($"Failed to start FMOD ball-bounce event: {result}", this);
-
-        result = bounceEvent.release();
-        if (result != FMOD.RESULT.OK)
-            Debug.LogError($"Failed to release FMOD ball-bounce event: {result}", this);
-    }
-
-    private void OnDestroy()
-    {
-        if (!hasBallRustlingEvent)
-            return;
-
-        FMOD.RESULT result = ballRustlingEvent.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
-        if (result != FMOD.RESULT.OK)
-            Debug.LogError($"Failed to stop FMOD ball-rustling event: {result}", this);
-
-        result = ballRustlingEvent.release();
-        if (result != FMOD.RESULT.OK)
-            Debug.LogError($"Failed to release FMOD ball-rustling event: {result}", this);
     }
 
     private void Update()
     {
-        float goalProximity = Mathf.Clamp01(1f - Mathf.Abs(transform.position.x) / 9f);
-        audioSystem?.SetBallParameters(transform.position, height / maxHeight, GroundSpeed, goalProximity);
+        float goalProximity = Mathf.Clamp01(1f - Mathf.Abs(Position.x) / 9f);
+        audioSystem?.SetBallParameters(Position, NormalizedHeight, GroundSpeed, goalProximity);
     }
 
     private void UpdateVisualHeight()
     {
-        float normalized = Mathf.Clamp01(height / maxHeight);
+        float normalized = NormalizedHeight;
         if (ballRenderer != null)
             transform.localScale = Vector3.one * Mathf.Lerp(minBallSize, maxBallSize, normalized);
 
@@ -293,6 +160,7 @@ public sealed class FootballBall : MonoBehaviour
         height = 0f;
         verticalVelocity = Mathf.Sqrt(2f * gravity * Mathf.Max(0f, targetHeight));
         wasGrounded = verticalVelocity <= 0f;
+        parameterSetter?.SetBallState(Position, height);
         audioSystem?.PlayBallKick(team, force);
     }
 
@@ -302,6 +170,7 @@ public sealed class FootballBall : MonoBehaviour
         height = Mathf.Max(height, launchHeight);
         verticalVelocity = Mathf.Sqrt(2f * gravity * height);
         wasGrounded = false;
+        parameterSetter?.SetBallState(Position, height);
         audioSystem?.PlayBallKick(0, force);
     }
 
@@ -319,7 +188,7 @@ public sealed class FootballBall : MonoBehaviour
             if (direction.sqrMagnitude == 0f)
                 direction = collision.relativeVelocity;
 
-            PlayBallBounce(impactSpeed, direction);
+            ballFmodAudio?.PlayBounce(impactSpeed, direction);
         }
     }
 

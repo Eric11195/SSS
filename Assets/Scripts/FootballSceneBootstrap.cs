@@ -3,6 +3,11 @@ using UnityEngine.SceneManagement;
 
 public sealed class FootballSceneBootstrap : MonoBehaviour
 {
+    [SerializeField] private Transform stadiumTensionCenter;
+    [SerializeField, Min(0f)] private float standTensionInnerRadius = 2f;
+    [SerializeField, Min(0.01f)] private float standTensionOuterRadius = 8f;
+    [SerializeField] private AnimationCurve standTensionCurve = AnimationCurve.Linear(0f, 0f, 1f, 1f);
+
     private static readonly Color Outline = new Color(0.16f, 0.19f, 0.24f);
     private static readonly Color Pitch = new Color(0.58f, 0.78f, 0.68f);
     private static readonly Color PitchStripe = new Color(0.68f, 0.84f, 0.74f);
@@ -21,6 +26,12 @@ public sealed class FootballSceneBootstrap : MonoBehaviour
         GameObject matchRoot = new GameObject("FootballMatch");
         matchRoot.transform.SetParent(transform);
         matchRoot.AddComponent<GameAudioMock>();
+        ParameterSetter parameterSetter = matchRoot.AddComponent<ParameterSetter>();
+        parameterSetter.ConfigureTensionArea(
+            stadiumTensionCenter,
+            standTensionInnerRadius,
+            standTensionOuterRadius,
+            standTensionCurve);
         matchRoot.AddComponent<FootballMatch>();
 
         CreatePlayer("Blue Player", new Vector3(-4.5f, 0f, -1f), LeftTeam, PlayerTeam.Left);
