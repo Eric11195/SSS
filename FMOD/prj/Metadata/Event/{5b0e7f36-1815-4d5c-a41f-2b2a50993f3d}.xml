@@ -155,6 +155,9 @@
 	<object class="MixerBusPanner" id="{5073158f-86d6-4075-807a-d18900e18755}" />
 	<object class="MixerBusFader" id="{44333419-381f-4063-838f-195a9086f81b}" />
 	<object class="SpatialiserEffect" id="{5a75e781-1626-4522-aa31-14a321720446}">
+		<property name="bypass">
+			<value>true</value>
+		</property>
 		<relationship name="modulators">
 			<destination>{2e4ec5dc-a704-423f-bda7-561dd838a835}</destination>
 			<destination>{2754dcb6-8fde-4369-a004-dcba9148cf5a}</destination>
@@ -175,7 +178,7 @@
 			<value>userStereoAxis</value>
 		</property>
 		<property name="speedAscending">
-			<value>0.53999996185302734</value>
+			<value>20</value>
 		</property>
 	</object>
 	<object class="SeekModulator" id="{09b8362e-b5d9-4300-9aaf-1a516c417d3e}">
@@ -183,7 +186,7 @@
 			<value>userStereoSeparation</value>
 		</property>
 		<property name="speedAscending">
-			<value>0.62999999523162842</value>
+			<value>25</value>
 		</property>
 	</object>
 </objects>

@@ -62,10 +62,19 @@ public sealed class FootballMatch : MonoBehaviour
         else
             rightScore++;
 
-        Vector3 arbiterPosition = refereeGO != null
-            ? refereeGO.transform.position
-            : referee != null ? referee.transform.position : transform.position;
-        RuntimeManager.PlayOneShot(GoalSfxEventPath, arbiterPosition);
+        FMOD.RESULT listenerResult = RuntimeManager.StudioSystem.getListenerAttributes(
+            0,
+            out FMOD.ATTRIBUTES_3D listenerAttributes);
+        if (listenerResult != FMOD.RESULT.OK)
+            Debug.LogError($"Failed to get FMOD listener attributes for {GoalSfxEventPath}: {listenerResult}", this);
+
+        Vector3 goalSfxPosition = listenerResult == FMOD.RESULT.OK
+            ? new Vector3(
+                listenerAttributes.position.x,
+                listenerAttributes.position.y,
+                listenerAttributes.position.z)
+            : Vector3.zero;
+        RuntimeManager.PlayOneShot(GoalSfxEventPath, goalSfxPosition);
 
         audioSystem?.PlayGoal(scoringTeam);
         if (ball != null)

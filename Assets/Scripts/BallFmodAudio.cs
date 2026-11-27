@@ -13,6 +13,7 @@ public sealed class BallFmodAudio : MonoBehaviour
     [SerializeField] private float minYSpeedToRustle = 0.15f;
     [SerializeField] private float minHeightToRustle = 0.05f;
     [SerializeField] private float minXSpeedToRustle = 0.15f;
+    [SerializeField, Range(0f, 1f)] private float minBounceVolume = 0.6f;
     [SerializeField, Min(0.01f)] private float fullBounceVolumeImpactSpeed = 10f;
     [SerializeField, Min(0.01f)] private float fullRustlingVolumeSpeed = 7f;
 
@@ -98,7 +99,8 @@ public sealed class BallFmodAudio : MonoBehaviour
             return;
         }
 
-        float volume = Mathf.Clamp01(impactSpeed / Mathf.Max(0.01f, fullBounceVolumeImpactSpeed));
+        float impactVolume = Mathf.Clamp01(impactSpeed / Mathf.Max(0.01f, fullBounceVolumeImpactSpeed));
+        float volume = Mathf.Lerp(Mathf.Clamp01(minBounceVolume), 1f, impactVolume);
         FMOD.RESULT result = bounceEvent.setVolume(volume);
         if (result != FMOD.RESULT.OK)
         {
