@@ -96,16 +96,19 @@
 			<value>0.10000000000000001</value>
 		</property>
 		<property name="polyphony">
-			<value>3</value>
+			<value>4</value>
 		</property>
 		<property name="minimumTimeBetweenSounds">
-			<value>550</value>
+			<value>300</value>
 		</property>
 		<property name="maximumTimeBetweenSounds">
-			<value>1500</value>
+			<value>800</value>
+		</property>
+		<property name="spawnRate">
+			<value>130</value>
 		</property>
 		<property name="pitchRandomization">
-			<value>4</value>
+			<value>2.5</value>
 		</property>
 		<relationship name="sound">
 			<destination>{cc0430d8-6d76-4564-adf4-8742e3d4a0e3}</destination>
@@ -173,6 +176,15 @@
 		</property>
 		<property name="overrideRange">
 			<value>true</value>
+		</property>
+		<property name="extentMode">
+			<value>1</value>
+		</property>
+		<property name="soundSize">
+			<value>30</value>
+		</property>
+		<property name="minimumExtent">
+			<value>180</value>
 		</property>
 		<relationship name="modulators">
 			<destination>{908f22e8-8f2d-444c-b374-3cb3d33e094e}</destination>
