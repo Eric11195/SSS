@@ -6,8 +6,10 @@ public sealed class BallFmodAudio : MonoBehaviour
 {
     private const string BallBounceEventPath = "event:/Ball/BallFall";
     private const string BallRustlingEventPath = "event:/Ball/BallRustling";
+    private const string BallFlyEventPath = "event:/Ball/BallFly";
 
     [SerializeField] private Transform listener;
+    [SerializeField, Min(0f)] private float minYSpeedToFly = 0.5f;
     [SerializeField] private float minYSpeedToRustle = 0.15f;
     [SerializeField] private float minHeightToRustle = 0.05f;
     [SerializeField] private float minXSpeedToRustle = 0.15f;
@@ -16,7 +18,10 @@ public sealed class BallFmodAudio : MonoBehaviour
 
     private Rigidbody2D body;
     private FMOD.Studio.EventInstance ballRustlingEvent;
+    private FMOD.Studio.EventInstance ballFlyEvent;
     private bool hasBallRustlingEvent;
+    private bool hasBallFlyEvent;
+    private bool isBallFlying;
     private bool isBallRustlingPaused = true;
 
     private void Awake()
@@ -30,6 +35,22 @@ public sealed class BallFmodAudio : MonoBehaviour
             return;
 
         listener.position = new Vector3(listener.position.x, listener.position.y, height * 8f);
+    }
+
+    public void UpdateAirTravel(float verticalVelocity)
+    {
+        bool shouldPlay = Mathf.Abs(verticalVelocity) > minYSpeedToFly;
+        if (shouldPlay == isBallFlying)
+            return;
+
+        isBallFlying = shouldPlay;
+        if (shouldPlay)
+        {
+            CreateBallFlyEvent();
+            return;
+        }
+
+        StopBallFlyEvent();
     }
 
     public void UpdateRustling(float height, float verticalVelocity, float horizontalSpeed)
@@ -146,6 +167,45 @@ public sealed class BallFmodAudio : MonoBehaviour
         isBallRustlingPaused = false;
     }
 
+    private void CreateBallFlyEvent()
+    {
+        FMOD.Studio.EventInstance newEvent = RuntimeManager.CreateInstance(BallFlyEventPath);
+        if (!newEvent.isValid())
+        {
+            Debug.LogError($"Failed to create FMOD event: {BallFlyEventPath}", this);
+            return;
+        }
+
+        RuntimeManager.AttachInstanceToGameObject(newEvent, gameObject, body);
+        FMOD.RESULT result = newEvent.start();
+        if (result != FMOD.RESULT.OK)
+        {
+            Debug.LogError($"Failed to start FMOD ball-fly event: {result}", this);
+            newEvent.release();
+            return;
+        }
+
+        ballFlyEvent = newEvent;
+        hasBallFlyEvent = true;
+    }
+
+    private void StopBallFlyEvent()
+    {
+        if (!hasBallFlyEvent)
+            return;
+
+        FMOD.RESULT result = ballFlyEvent.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
+        if (result != FMOD.RESULT.OK)
+            Debug.LogError($"Failed to stop FMOD ball-fly event: {result}", this);
+
+        result = ballFlyEvent.release();
+        if (result != FMOD.RESULT.OK)
+            Debug.LogError($"Failed to release FMOD ball-fly event: {result}", this);
+
+        ballFlyEvent = default;
+        hasBallFlyEvent = false;
+    }
+
     private void PauseRustling()
     {
         if (!hasBallRustlingEvent || isBallRustlingPaused)
@@ -164,6 +224,8 @@ public sealed class BallFmodAudio : MonoBehaviour
 
     private void OnDestroy()
     {
+        StopBallFlyEvent();
+
         if (!hasBallRustlingEvent)
             return;
 
