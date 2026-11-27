@@ -12,4 +12,4 @@ Unity packages and engine functionality are governed by the Unity Terms of Servi
 
 ## Third-Party FMOD Audio
 
-The FMOD project includes third-party audio files and processed derivatives under `FMOD/prj/Assets`. See [FMOD/prj/Assets/credits.md](FMOD/prj/Assets/credits.md) for available creator attributions. The FMOD audio metadata does not retain source URLs or license terms for most clips, so attribution alone does not establish redistribution permissions. Verify each source license and retain its terms before redistributing the project.
+The FMOD project includes third-party audio files and processed derivatives under `FMOD/prj/Assets`. See [FMOD/prj/Assets/credits.md](FMOD/prj/Assets/credits.md) for available creator attributions.
