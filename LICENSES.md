@@ -1,6 +1,6 @@
 # License Summary
 
-The base game currently uses no downloaded third-party art or audio assets. Its generated visuals and source scripts are part of this repository and may be used according to the repository's license, if one is added.
+The game's visuals are procedurally generated and its source scripts are part of this repository. Third-party audio assets are included in the FMOD project and are documented below.
 
 ## FMOD
 
@@ -10,6 +10,6 @@ The repository includes FMOD integration files and `Assets/Plugins/FMOD/LICENSE.
 
 Unity packages and engine functionality are governed by the Unity Terms of Service and the licenses shown in the Unity Package Manager. No Unity Asset Store package media is used as a base-game dependency.
 
-## No External Media
+## Third-Party FMOD Audio
 
-No external sprites, textures, sound samples, or recordings are included by this implementation. Before adding real FMOD banks or downloaded media, add the author, source URL, license name, version/date, and redistribution permissions to `CREDITS.md` and retain the complete license text in this file or an adjacent `Assets/.../LICENSE.txt`.
+The FMOD project includes third-party audio files and processed derivatives under `FMOD/prj/Assets`. See [FMOD/prj/Assets/credits.md](FMOD/prj/Assets/credits.md) for available creator attributions. The FMOD audio metadata does not retain source URLs or license terms for most clips, so attribution alone does not establish redistribution permissions. Verify each source license and retain its terms before redistributing the project.
